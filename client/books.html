@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+  <head>
+
+      <style>
+
+          .directions {
+                        font-size: x-large;
+                        color: red
+                      }
+
+      </style>
+
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+      <script>
+
+       function handleRetrieveResult(resp_body) {
+                              console.log( resp_body );
+                              var book = resp_body.book;
+                              $("#book").val( book );
+                          };
+
+       function handleSaveResult(resp_body) {
+                      console.log( resp_body );
+                      var book = resp_body.book;
+                      $("#feedback").text( JSON.stringify( resp_body) );
+                  };
+
+        var main = function (){
+
+              //relying on cookie to keep user name below
+
+              $("button#save").on("click", function (event){ 
+                    $.post("save.json",
+                           {"book": $("#title").val(), "author": $("#author").val(), "genre": $("#genre").val()},
+                           handleSaveResult);
+               });
+
+               $("button#retrieve").on("click", function (event){ 
+                    $.get("retrieve.json",
+                           {},
+                           handleRetrieveResult);
+               });
+
+        }
+        $(document).ready(main);
+      </script>
+  </head>
+
+  <body>
+
+    <h1>Profile Saver</h1>
+
+     <section id="profile">
+        <span class="directions">Choose a book title you like: </span>
+        <input id="title" type="text"><br>
+
+        <span class="directions">Choose an author you like: </span>
+        <input id="author" type="text"><br>
+
+        <span class="directions">Choose a genre you want to read: </span>
+        <select id="genre"> 
+          <option value="1">Fiction - Drama</option>
+          <option value="2">Fiction - Teen</option>
+          <option value="3">Fiction - Romance</option>
+          <option value="4">Fiction - Mystery/Thriller</option>
+          <option value="5">Fiction - Fantasy</option>
+          <option value="6">Fiction - Horror</option>
+          <option value="7">Nonfiction - Art</option>
+          <option value="8">Nonfiction - Travel</option>
+          <option value="9">Nonfiction - Historical</option>
+          <option value="10">Nonfiction - Cooking and Food</option>
+          <option value="11">Nonfiction - Education</option>
+          <option value="12">Nonfiction - Teen</option>
+        </select>
+
+        <p>
+        <button id="save">Save user profile</button>
+        <p>
+        <button id="retrieve">Retrieve user profile</button>
+    </section>
+    
+    <section id="result">
+        <h2>Feedback: <span id="feedback"></span></h2>
+    </section>
+
+  </body>
+</html>
