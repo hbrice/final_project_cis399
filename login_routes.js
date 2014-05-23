@@ -1,5 +1,7 @@
 
-var login = require("./login.js");
+var 
+    login = require("./login.js")
+;
 
 var cookie_options = {};
 
@@ -11,14 +13,14 @@ function loginHandler(req, res){
     var the_body = req.query;
     console.log ( "login request: " + JSON.stringify(the_body) );
     login.handleLogin( the_body, function ( janswer ){
-        console.log( "login resonse: " + JSON.stringify( janswer));
-        if( janswer.name !== true || janswer.password !== true )
-            res.json( janswer );
-        else {
-            res.cookie('user', the_body.name, cookie_options);
-            res.json({"url": "./books.html"});
-        };
-    });
+                        console.log( "login resonse: " + JSON.stringify( janswer));
+                        if( janswer.name !== true || janswer.password !== true )
+                            res.json( janswer );
+                        else {
+                            res.cookie('user', the_body.name, cookie_options);
+                            res.json({"url": "./foods.html"});
+                        };
+                    });
 }
 
 //expect body to be {name: String, password: String}
@@ -33,13 +35,13 @@ function registerHandler(req, res){
                 res.json( janswer );
             else {
                 res.cookie('user', the_body.name, cookie_options);
-                res.json({"url": "./books.html"});
+                res.json({"url": "./foods.html"});
             };
         });
 }
 
 
 module.exports = {
-  "loginHandler": loginHandler,
-  "registerHandler": registerHandler,
-};
+          "loginHandler": loginHandler,
+           "registerHandler": registerHandler,
+                };

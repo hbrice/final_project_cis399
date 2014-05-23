@@ -24,16 +24,16 @@ app.get("/login.json", login_handlers.loginHandler);
 
 app.post("/register.json", login_handlers.registerHandler);
 
-//routes for main app page (books.html)
+//routes for main app page (foods.html)
 
-var book_handlers = require("./book_routes.js");
+var food_handlers = require("./food_routes.js");
 
 app.get("/retrieve.json", 
     function(res, req){ 
-    	book_handlers.retrieveProfileHandler( res, req); });
+    	food_handlers.retrieveProfileHandler( res, req); });
 
-app.post("/save.json", book_handlers.saveProfileHandler);
+app.post("/save.json", food_handlers.saveProfileHandler);
 
-app.get("/books", book_handlers.reloadBooks);
+app.get("/foods", food_handlers.reloadFoods);
 
 

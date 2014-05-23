@@ -3,17 +3,17 @@ var mongoose = require("mongoose"),
     mongoUrl;
 
 if (process.env.VCAP_SERVICES) {
-   services = JSON.parse(process.env.VCAP_SERVICES);
-   console.log( "servces: " + JSON.stringify( services ));
-   login_mongoUrl = services["mongolab"][0].credentials.uri;
+           services = JSON.parse(process.env.VCAP_SERVICES);
+           console.log( "servces: " + JSON.stringify( services ));
+           login_mongoUrl = services["mongolab"][0].credentials.uri;
 } else {
-   //use this when not running on Cloud Foundry
-   console.log("Using localhost/login2");
-   mongoUrl = "mongodb://localhost/login2";
+           //use this when not running on Cloud Foundry
+           console.log("Using localhost/login2");
+           mongoUrl = "mongodb://localhost/login2";
 }
 
 
-mongoose.connect(mongoUrl);  //createConnection did not work here! Odd. Works in books.js!
+mongoose.connect(mongoUrl);  //createConnection did not work here! Odd. Works in foods.js!
 var db = mongoose.connection;
 
 //db.on('open', openHandler);
@@ -74,60 +74,61 @@ function mongoCheckExistence( login, callBack ){
     console.log( "checking existence: " + JSON.stringify( login ) );
     var name = login.name;          //assume unique
     var pass = login.password;      //not unique
-    User.findOne({"user": name}, function (err, result) {
-      console.log( "existence result: " + JSON.stringify( result ));
-      if (err !== null) {
-         console.log("ERROR: " + err);
-         callBack({"err": err});
-         return;
-      }
-      if( result ){
-         if( result.password === pass )
-            callBack({"name": true, "password": true});  //both matched
-          else
-            callBack({"name": true, "password": false}); //only name matched
-      } else {
-        //could optionally check for password match here - useful info?
-        callBack({"name": false, "password": null});     //name did not match
-      }
-  });
+    User.findOne({"user": name},
+             function (err, result) {
+                console.log( "existence result: " + JSON.stringify( result ));
+                if (err !== null) {
+                   console.log("ERROR: " + err);
+                   callBack({"err": err});
+                   return;
+                }
+                if( result ){
+                   if( result.password === pass )
+                      callBack({"name": true, "password": true});  //both matched
+                    else
+                      callBack({"name": true, "password": false}); //only name matched
+                } else {
+                  //could optionally check for password match here - useful info?
+                  callBack({"name": false, "password": null});     //name did not match
+                }
+             });
 }
 
 //expects login to be of form {name: String, password: String}
 //provides callBack with arg: {"saved": bool} or {err: error}
 function mongoRegister( login, callBack ){
-  mongoCheckExistence( login, function( result ){
-    if( result.err ){
-         callBack({"err": result.err});  //just pass it back to callee
-         return;
-    }
-    if( result.name ){
-         callBack({"saved": false});  //exists so was not saved
-    } else {
-         //Big thing to note - we are not waiting for save result before calling back to client
-         var user = new User( {"user": login.name, password: login.password,
-                                "history": [], "compromised": [] });
-         user.save(function (err, doc){ 
-           console.log( "register result: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));
-         });
-         callBack({"saved": true});
-    }
- });
+          mongoCheckExistence( login, function( result ){
+                      if( result.err ){
+                           callBack({"err": result.err});  //just pass it back to callee
+                           return;
+                      }
+                      if( result.name ){
+                           callBack({"saved": false});  //exists so was not saved
+                      } else {
+                           //Big thing to note - we are not waiting for save result before calling back to client
+                           var user = new User( {"user": login.name, password: login.password,
+                                                  "history": [], "compromised": [] });
+                           user.save(function (err, doc){ 
+                             console.log( "register result: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));
+                           });
+                           callBack({"saved": true});
+                      }
+                   });
 }
 
 //expects login to be of form {name: String, password: String}
 //provides callBack with arg: {"name": bool, "password": bool} or {err: error}
 function mongoLogin( login, callBack ){
-  mongoCheckExistence( login, function( result ){
-    if( result.err )
-         callBack({"err": result.err});  //just pass it back to callee
-    else
-         callBack(result);  //let callee know how it matched
- });
+          mongoCheckExistence( login, function( result ){
+                      if( result.err )
+                           callBack({"err": result.err});  //just pass it back to callee
+                      else
+                           callBack(result);  //let callee know how it matched
+                   });
 }
 
 module.exports = {
-  "handleRegistration": mongoRegister,
-  "handleLogin": mongoLogin,
-  "checkExistence": mongoCheckExistence
-};
+          "handleRegistration": mongoRegister,
+          handleLogin: mongoLogin,
+          checkExistence: mongoCheckExistence
+				};
