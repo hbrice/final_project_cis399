@@ -16,8 +16,22 @@
     <h1>Profile Saver</h1>
 
      <section id="profile">
+      <tr><td></td><td></td></tr>
+        <span class="directions">What kind of food are you looking for? </span>
+        <select id="time" style="margin-left: 20px; width: 110px;">
+          <option value="0"> ----- </option>
+          <option value="1">Breakfast</option>
+          <option value="2">Lunch</option>
+          <option value="3">Dinner</option>
+          <option value="4">Dessert</option>
+          <option value="5">Snack</option>
+        </select>
+        <br>
+
+     <section id="profile">
         <span class="directions">What type of food do you want? </span>
-        <select id="food">
+        <select id="food" style="margin-left: 88px; width: 110px;">
+          <option value="0"> ----- </option>
           <option value="1">Pub Food</option>
           <option value="2">Thai</option>
           <option value="3">American</option>
@@ -27,14 +41,12 @@
           <option value="7">Mediterranean</option>
           <option value="7">Asian Cuisine</option>
           <option value="7">Coffee</option>
-
-
-
         </select>
         <br>
         
         <span class="directions">What is your price range? </span>
-        <select id="price">
+        <select id="price" style="margin-left: 150px; width: 110px;">
+          <option value="0"> ----- </option>
           <option value="1">$0 - $8</option>
           <option value="2">$8 - $15</option>
           <option value="3">$15 +</option>
@@ -42,9 +54,9 @@
         <br>
 
         <span class="directions">What meal are you looking for? </span>
-        <input id="food" type="text">
+        <input id="food" type="text" style="margin-left: 88px; width: 110px;">
+        <span class="examples">(ie Fried Rice)</span>
         <br>
-
         <p>
         <button id="save">Save user profile</button>
         <p>

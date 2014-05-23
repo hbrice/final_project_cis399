@@ -1,5 +1,11 @@
 
 .directions {
             font-size: x-large;
-            color: red
+            color: green;
+          }
+
+
+.examples {
+            font-size: medium;
+            color: green;
           }
