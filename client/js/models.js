@@ -1,7 +1,7 @@
 // this is just a comment right now... 
 //each name is unique
 var UserSchema = {
-	name: {type: String}, //ie. Bob
+	name: {type: String, unique: true}, //ie. Bob
 	meal_time: String, //ie. breakfast
 	food_category: String, //ie. Thai
 	price: String, //ie. $8-$15
@@ -12,9 +12,10 @@ var UserSchema = {
 // if you want to put post in this file, put it in set, and setAll and remove from matcher_controller
 var UserModel = {
 	name: null, 
-	max_monthly: null,
-	history: null,
-	current_providers: null,
+	meal_time: null,
+	food_category: null,
+	price: null,
+	goal_meal: null,
 	get: function( field ){  //could go to server and checkto see if data is up to date
 		if( this[field] === undefined ) console.error("field error " + field);
 		return this[field];},
@@ -54,28 +55,29 @@ if( sessionStorage.getItem('name' === undefined) sessionStorage.setItem('name', 
 
 //test cases
 UserModel.set( name: sessionStorage.getItem( 'name' )); //client cookie = session
-UserModel.set( "history": ['diabetes'] );
-UserModel.setAll({max_monthly: 200, current_providers: []});
+UserModel.set( "goal_meal": "frozen yogurt" );
+UserModel.setAll({food_category: "American", meal_time: "lunch"});
 
-var ProviderSchema = {'name': {'unique': true, type: String}, 'min_monthly': Number, 'exclusion_list': [String]}
-var ProviderModel = {'name': null,
-					 'min_monthly': null,
-					 'exclusion_list': [],
+var RestaurantSchema = {'name': {'unique': true, type: String}, "meal_time": [String], "food_category": [String], "price": String}
+var RestaurantModel = {'name': null,
+					 "meal_time": null,
+					 'food_category': null,
+					 'price': null,
 					 //getAll, setAll, get, set
 					};
-var AllProviders = {
+var AllRestaurants = {
 					'the_list': [], 
 					//addProvider, allProviders, findProviders, removeProvider
 					};										
-var temp_provider = ProviderModel.setAll({name: 'kaiser', min_monthly: 200, exclusion_list: ['diabetes']});
+var temp_restaurant = RestaurantModel.setAll({name: "Yogurt Extreme", meal_time: ["Dessert", "Snack"], food_category: ["American"], price: "min"});
 
-AllProviders.addProvider( temp_provider );
+AllRestaurants.addRestaurant( temp_retaurant );
 
-temp_provider = ProviderModel.setAll({name: 'bluecross', min_monthly: 100, exclusion_list: ['diabetes']});
+temp_provider = RestaurantModel.setAll({name: 'Glenwood', meal_time: ["Breakfast"], food_category: ['American'], price: "med"});
 
-AllProviders.addProvider( temp_provider );
+AllRestaurants.addRestaurant( temp_restaurant );
 
-var x = $.extend({}, ProviderModel); //does a clone
+var x = $.extend({}, RestaurantModel); //does a clone
 
 
 
