@@ -32,9 +32,10 @@ var index_main = function (){
 
    $("button#modify").on("click", function( event ){
    	//get all data together
-   	var max = $("input#max").val();
-   	var history = $("input#history").val();
-   	var currentprovider = $("input#currentprovider").val();
+   	var meal_time = $("select#meal_time").val();
+   	var food_category = $("select#food_category").val();
+   	var price = $("select#price").val();
+    var goal_meal = $("input#goal_meal").val();
    	var name = sessionStorage.getItem('name'); 
 
    	//send it to server
