@@ -40,13 +40,13 @@ var index_main = function (){
 
        //send it to server
      	$.post("modify_user_profile.json", {"save", {"name": name, "meal_time": meal_time, "food_category", food_category, "price": price, "goal_meal": goal_meal}, function( err, result ){
-     		if (err){   //if error, repost
+     		if (err){   //if error, then repost
           console.log(err);
         }
      	}); 
 
      	//update model
-     	UserModel.setAll( {max_monthly: max, current_providers: currentprovider})
+     	UserModel.setAll( {"meal_time": meal_time, "food_category": food_category, "price": price, "goal_meal": goal_meal})
      });
 
 
