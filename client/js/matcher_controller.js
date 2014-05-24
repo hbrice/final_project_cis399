@@ -31,20 +31,23 @@ var index_main = function (){
 
 
    $("button#modify").on("click", function( event ){
-   	//get all data together
-   	var max = $("input#max").val();
-   	var history = $("input#history").val();
-   	var currentprovider = $("input#currentprovider").val();
-   	var name = sessionStorage.getItem('name'); 
+     	//get all data together
+     	var meal_time = $("select#meal_time").val();
+     	var food_category = $("select#food_category").val();
+     	var price = $("select#price").val();
+      var goal_meal = $("input#goal_meal").val();
+     	var name = sessionStorage.getItem('name'); 
 
-   	//send it to server
-   	$.post("modify_user_profile.json", {...}, function( err, result ){
-   		//if error, repost
-   	}); 
+       //send it to server
+     	$.post("modify_user_profile.json", {"save", {"name": name, "meal_time": meal_time, "food_category", food_category, "price": price, "goal_meal": goal_meal}, function( err, result ){
+     		if (err){   //if error, repost
+          console.log(err);
+        }
+     	}); 
 
-   	//update model
-   	UserModel.setAll( {max_monthly: max, current_providers: currentprovider})
-   });
+     	//update model
+     	UserModel.setAll( {max_monthly: max, current_providers: currentprovider})
+     });
 
 
 }
