@@ -1,10 +1,11 @@
 // this is just a comment right now... 
 //each name is unique
 var UserSchema = {
-	name: {type: String, unique: true }, 
-	max_monthly: Number,
-	history: [String],
-	current_providers: [String]
+	name: {type: String}, //ie. Bob
+	meal_time: String, //ie. breakfast
+	food_category: String, //ie. Thai
+	price: String, //ie. $8-$15
+	goal_meal: String //ie. fried rice
 };
 
 //defualt user is null because they have to login
