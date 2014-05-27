@@ -9,7 +9,9 @@
       <script src="./js/models.js"></script>
 
       <script src="./js/matcher_controller.js"></script>
-
+      <script>
+        $(document).ready(index_main);
+      </script>
   </head>
 
   <body>
@@ -42,7 +44,7 @@
           <option value="mediterranean">Mediterranean</option>
         </select>
         <br>
-        
+
         <span class="directions">What is your price range? </span>
         <select id="price" style="margin-left: 150px; width: 110px;">
           <option value="0"> ----- </option>
@@ -61,7 +63,7 @@
         <p>
         <button id="retrieve">Retrieve user profile</button>
     </section>
-    
+
     <section id="result">
         <h2>Feedback: <span id="feedback"></span></h2>
     </section>

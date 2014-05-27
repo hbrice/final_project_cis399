@@ -1,22 +1,24 @@
 /**
 * Holly Brice & Heidi Niu
-* Final Project
+* CIS399: Final Project
 */
-
+console.log("top of file");
 
 function handleLoginResult(resp_body) {
-      console.log( resp_body );
-      $("#feedback").text( JSON.stringify( resp_body) );
-      sessionStorage.setItem( 'name', resp_body.user ); //setting global variable with name of user
-      if( resp_body.url ) window.location = resp_body.url; //load main app page
-  };
+    console.log("Entered handleLoginResult.");
+    console.log( resp_body );
+    $("#feedback").text( JSON.stringify( resp_body) );
+    sessionStorage.setItem( 'name', resp_body.user ); //setting global variable with name of user
+    if( resp_body.url ) window.location = resp_body.url; //load main app page
+};
 
-   function handleRegisterResult(resp_body) {
-      console.log( resp_body );
-      $("#feedback").text( JSON.stringify( resp_body) )
-      sessionStorage.setItem( 'name', resp_body.user ); //setting global variable with name of user
-      if( resp_body.url ) window.location = resp_body.url;
-  };
+function handleRegisterResult(resp_body) {
+    console.log("Entered handleRegisterResult.");
+    console.log( resp_body );
+    $("#feedback").text( JSON.stringify( resp_body) )
+    sessionStorage.setItem( 'name', resp_body.user ); //setting global variable with name of user
+    if( resp_body.url ) window.location = resp_body.url;
+};
 
 var index_main = function (){
   console.log("inside index_main");
@@ -34,8 +36,7 @@ var index_main = function (){
                handleRegisterResult);
    });
 
-
-   $("button#modify").on("click", function( event ){
+   $("button#save").on("click", function( event ){
       //get all data together
       console.log("button clicked.");
       var meal_time = $("select#meal_time").val();
@@ -52,6 +53,7 @@ var index_main = function (){
        
        //send it to server
       $.post("save.json", updatedUser, function( err, result ){
+        alert("Err: " + err + "\nStatus: " + result);
         if( err ){   
           console.log("Error while sending to server = " + err);
           res.json( err );  //if error occurs
@@ -63,6 +65,11 @@ var index_main = function (){
 
       //update model
       UserModel.setAll( {"meal_time": meal_time, "food_category": food_category, "price": price, "goal_meal": goal_meal})
+      
+      //var $result = $("#feedback").text( "" );
+      //$result.text( )
+      //sessionStorage.setItem( 'name', resp_body.user ); //setting global variable with name of user
+      //if( resp_body.url ) window.location = resp_body.url;
      });
 
 } //end of main

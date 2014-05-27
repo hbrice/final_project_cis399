@@ -1,3 +1,8 @@
+/**
+* Holly Brice & Heidi Niu
+* CIS 399: Final Project
+*/
+
 // this is just a comment right now... 
 //each name is unique
 var UserSchema = {
@@ -21,16 +26,18 @@ var UserModel = {
 		return this[field];},
 	set: function( field, value ){	//set = field name and value u want to set it 
 		//set is bad fix this....
-		if( this[field] === undefined ) console.error("field error " + field);
+		if( this[field] === undefined ){
+			console.error("field error " + field);
+		} 
 		return console.error();	},
 	getAll: function(){
 		var all_keys = Object.keys ( this );
 		var model = this; //needed because of scope
 		//obj is thing we are carrying and current is the immediate item we are looking at
 		return all_keys.reduce( function( obj, current ){
-			if( model[current] typeof 'function') return obj;
-			obj[current] = model[current]; //added this field onto object and put value in
-			return obj; 
+			if( typeof ( model[current]) == 'function') return obj;
+				obj[current] = model[current]; //added this field onto object and put value in
+				return obj; 
 		}, {/*intentionally empty */});
 	},
 	setAll: function( obj ){	//obj = {name: steve, max_monthly: 200}
@@ -50,39 +57,32 @@ var UserModel = {
 
 
 //comment out when server is running!
-//for testing
-if( sessionStorage.getItem('name' === undefined) sessionStorage.setItem('name', 'foobar'));
+// //for testing
+// if( sessionStorage.getItem('name' === undefined)) sessionStorage.setItem('name', 'foobar');
 
-//test cases
-UserModel.set( name: sessionStorage.getItem( 'name' )); //client cookie = session
-UserModel.set( "goal_meal": "frozen yogurt" );
-UserModel.setAll({food_category: "American", meal_time: "lunch"});
+// //test cases
+// UserModel.set( name: sessionStorage.getItem( "name" ) ); //client cookie = session
+// UserModel.set( goal_meal: "frozen yogurt" );
+// UserModel.setAll({"food_category": "American", "meal_time": "lunch"} );
 
-var RestaurantSchema = {'name': {'unique': true, type: String}, "meal_time": [String], "food_category": [String], "price": String}
-var RestaurantModel = {'name': null,
-					 "meal_time": null,
-					 'food_category': null,
-					 'price': null,
-					 //getAll, setAll, get, set
-					};
-var AllRestaurants = {
-					'the_list': [], 
-					//addProvider, allProviders, findProviders, removeProvider
-					};										
-var temp_restaurant = RestaurantModel.setAll({name: "Yogurt Extreme", meal_time: ["Dessert", "Snack"], food_category: ["American"], price: "min"});
+// var RestaurantSchema = {'name': {'unique': true, type: String}, "meal_time": [String], "food_category": [String], "price": String}
+// var RestaurantModel = {'name': null,
+// 					 "meal_time": null,
+// 					 'food_category': null,
+// 					 'price': null,
+// 					 //getAll, setAll, get, set
+// 					};
+// var AllRestaurants = {
+// 					'the_list': [], 
+// 					//addProvider, allProviders, findProviders, removeProvider
+// 					};										
+// var temp_restaurant = RestaurantModel.setAll({name: "Yogurt Extreme", meal_time: ["Dessert", "Snack"], food_category: ["American"], price: "min"});
 
-AllRestaurants.addRestaurant( temp_retaurant );
+// AllRestaurants.addRestaurant( temp_retaurant );
 
-temp_provider = RestaurantModel.setAll({name: 'Glenwood', meal_time: ["Breakfast"], food_category: ['American'], price: "med"});
+// temp_provider = RestaurantModel.setAll({name: 'Glenwood', meal_time: ["Breakfast"], food_category: ['American'], price: "med"});
 
-AllRestaurants.addRestaurant( temp_restaurant );
+// AllRestaurants.addRestaurant( temp_restaurant );
 
-var x = $.extend({}, RestaurantModel); //does a clone
-
-
-
-
-
-
-
+// var x = $.extend({}, RestaurantModel); //does a clone
 
