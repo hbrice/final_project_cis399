@@ -38,12 +38,14 @@ var index_main = function (){
 
    $("button#save").on("click", function( event ){
       //get all data together
-      console.log("button clicked.");
-      var meal_time = $("select#meal_time").val();
+      console.log("Save - button clicked.");
+      var meal_time = $("select#mealtime").val();
       var food_category = $("select#food_category").val();
       var price = $("select#price").val();
       var goal_meal = $("input#goal_meal").val();
       var name = sessionStorage.getItem('name'); 
+      console.log("^^^^^ " + meal_time, food_category, price, goal_meal);
+      // it is getting the correct info
       var updatedUser = {"name": name,
               "meal_time": meal_time, 
               "food_category": food_category, 
@@ -65,11 +67,24 @@ var index_main = function (){
 
       //update model
       UserModel.setAll( {"meal_time": meal_time, "food_category": food_category, "price": price, "goal_meal": goal_meal})
-      
-      //var $result = $("#feedback").text( "" );
-      //$result.text( )
-      //sessionStorage.setItem( 'name', resp_body.user ); //setting global variable with name of user
-      //if( resp_body.url ) window.location = resp_body.url;
      });
+
+  $("button#retrieve").on("click", function( event ){
+      //get all data together
+      console.log("Retrieve - button clicked.");
+
+      console.log( UserModel.getAll() );
+
+      var meal_time = $("select#mealtime").val();
+      var food_category = $("select#food_category").val();
+      var price = $("select#price").val();
+      var goal_meal = $("input#goal_meal").val();
+      var name = sessionStorage.getItem('name'); 
+  
+      
+     });
+
+
+
 
 } //end of main
