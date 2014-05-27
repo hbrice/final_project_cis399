@@ -23,14 +23,14 @@ function handleRegisterResult(resp_body) {
 var index_main = function (){
   console.log("inside index_main");
   $("button#login").on("click", function (event){ 
-        console.log("button clicked");
+        console.log("login button clicked");
         $.get("login.json",
                {"name": $("#old_name").val(), "password": $("#old_pass").val() },
                handleLoginResult);
    });
 
    $("button#register").on("click", function (event){ 
-    console.log("****");
+    console.log("register button clicked");
         $.post("register.json",
                {"name": $("#new_name").val(), "password": $("#new_pass").val() },
                handleRegisterResult);
@@ -55,14 +55,15 @@ var index_main = function (){
        
        //send it to server
       $.post("save.json", updatedUser, function( err, result ){
-        alert("Err: " + err + "\nStatus: " + result);
+          console.log("Sending update to server");
+        //alert("Err: " + err + "\nStatus: " + result);
         if( err ){   
           console.log("Error while sending to server = " + err);
           res.json( err );  //if error occurs
         } else {
           res.json( result ); //send the result
         }
-
+        $("#feedback").text("This data was saved");
       }); 
 
       //update model
@@ -72,6 +73,7 @@ var index_main = function (){
   $("button#retrieve").on("click", function( event ){
       //get all data together
       console.log("Retrieve - button clicked.");
+      $("#feedback").empty();
 
       console.log( UserModel.getAll() );
 
@@ -80,8 +82,14 @@ var index_main = function (){
       var price = $("select#price").val();
       var goal_meal = $("input#goal_meal").val();
       var name = sessionStorage.getItem('name'); 
-  
       
+       //for testing output - will want to get info from server
+      $("#feedback").text("Meal time = " + meal_time +
+         ". Food category = " + food_category + 
+         ". Price = " + price + 
+         ". Goal Meal = " + goal_meal + 
+         ". Name = " + name + ".");
+
      });
 
 
