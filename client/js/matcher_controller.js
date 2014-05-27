@@ -1,4 +1,7 @@
-//matcher_controller
+/**
+* Holly Brice & Heidi Niu
+* Final Project
+*/
 
 
 function handleLoginResult(resp_body) {
@@ -46,10 +49,14 @@ var index_main = function (){
               "price": price, 
               "goal_meal": goal_meal
             };
+       
        //send it to server
       $.post("save.json", updatedUser, function( err, result ){
-        if (err){   //if error, then repost
-          console.log(err);
+        if( err ){   
+          console.log("Error while sending to server = " + err);
+          res.json( err );  //if error occurs
+        } else {
+          res.json( result ); //send the result
         }
 
       }); 
