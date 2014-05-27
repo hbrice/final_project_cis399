@@ -129,6 +129,6 @@ function mongoLogin( login, callBack ){
 
 module.exports = {
           "handleRegistration": mongoRegister,
-          handleLogin: mongoLogin,
-          checkExistence: mongoCheckExistence
+          "handleLogin": mongoLogin,
+          "checkExistence": mongoCheckExistence
 				};

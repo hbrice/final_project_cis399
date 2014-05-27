@@ -26,13 +26,13 @@ app.post("/register.json", login_handlers.registerHandler);
 
 //routes for main app page (foods.html)
 
-//var food_handlers = require("./places_routes.js");
+var food_handlers = require("./restaurants_routes.js");
 
-// app.get("/retrieve.json", 
-//     function(res, req){ 
-//     	food_handlers.retrieveProfileHandler( res, req); });
+app.get("/retrieve.json", 
+    function(res, req){ 
+    	food_handlers.retrieveProfileHandler( res, req); });
 
-// app.post("/save.json", food_handlers.saveProfileHandler);
+app.post("/save.json", food_handlers.saveProfileHandler);
 
 // app.get("/places.json", food_handlers.reloadFoods);
 

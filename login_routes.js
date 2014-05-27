@@ -18,7 +18,7 @@ function loginHandler(req, res){
                             res.json( janswer );
                         else {
                             res.cookie('user', the_body.name, cookie_options);
-                            res.json({"url": "./foods.html"});
+                            res.json({"url": "./places.html"});
                         };
                     });
 }
@@ -35,7 +35,7 @@ function registerHandler(req, res){
                 res.json( janswer );
             else {
                 res.cookie('user', the_body.name, cookie_options);
-                res.json({"url": "./foods.html"});
+                res.json({"url": "./places.html"});
             };
         });
 }

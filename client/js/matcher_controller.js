@@ -67,8 +67,9 @@ var index_main = function (){
       }); 
 
       //update model
-      UserModel.setAll( {"meal_time": meal_time, "food_category": food_category, "price": price, "goal_meal": goal_meal})
-     });
+      UserModel.setAll( {"meal_time": meal_time, "food_category": food_category, "price": price, "goal_meal": goal_meal});
+     
+     }); //end of button
 
   $("button#retrieve").on("click", function( event ){
       //get all data together
@@ -90,7 +91,7 @@ var index_main = function (){
          ". Goal Meal = " + goal_meal + 
          ". Name = " + name + ".");
 
-     });
+  }); //end of button
 
 
 
