@@ -2,6 +2,7 @@
 * Holly Brice & Heidi Niu
 * CIS 399: Final Project
 */
+console.log("******************************** NEW SESSION *********");
 var mongoose = require("mongoose"),
     mongoUrl;
 
@@ -12,9 +13,8 @@ if (process.env.VCAP_SERVICES) {
 } else {
    //use this when not running on Cloud Foundry
    console.log("Using localhost/login2");
-   mongoUrl = "mongodb://localhost/login2";
+   mongoUrl = "mongodb://localhost/login2"; //creating db called login2
 }
-
 
 mongoose.connect(mongoUrl);  //createConnection did not work here! Odd. Works in foods.js!
 var db = mongoose.connection;
@@ -36,29 +36,36 @@ process.on('SIGINT', function() {
   });
 });
 
-//set up new collection: schema + model
-var UserSchema = mongoose.Schema({ user: {type: String, unique : true }, //see save below
-                                     password: String,
-                                     history: [String],
-                                     compromised: [String]});
-var User = mongoose.model("User", UserSchema);
-
-//need something in db for it to be defined
-var query = {"user": "steve", "password": "evets", "history": ["steve"], "compromised": ["steve"]};  //add for testing
-User.findOneAndUpdate( query, {}, {upsert: true}, function(err, doc){
-    console.log( "test err: " + err);
-    console.log( "test doc: " + doc);
+console.log("login.js - creating userSchema");
+/* set up new user collection: schema + model */
+var UserSchema = mongoose.Schema({ 
+    name: {type: String, unique : true }, //see save below
+    password: String,
+    history: [String],
+    compromised: [String]
 });
 
+var User = mongoose.model("User", UserSchema);
+console.log("login.js - user created.");
+
+
+//need something in db for it to be defined
+/* User login info */
+// var query = {"name": "holly", "password": "cow", "history": ["holly"], "compromised": ["holly"]};  //add for testing
+// User.findOneAndUpdate( query, {}, {upsert: true}, function(err, doc){
+//     console.log( "test err: " + err);
+//     console.log( "test doc: " + doc);
+// });
+
 //this tests out the "unique" key on user - should give error message second time run"
-var user1 = new User( {"user": "simon", "password": "a", "history": [], "compromised": []} );
-user1.save( function(err, doc ){
-      if (err) {
-        console.log("save error: " + JSON.stringify( err ));
-      } else {
-        console.log("doc saved: " + JSON.stringify( doc ));
-      }
-    });
+// var user1 = new User( {"name": "simon", "password": "a", "history": [], "compromised": []} );
+// user1.save( function(err, doc ){
+//       if (err) {
+//         console.log("save error: " + JSON.stringify( err ));
+//       } else {
+//         console.log("doc saved: " + JSON.stringify( doc ));
+//       }
+//     });
 
 //gives you messages on various db events
 db.once('open', function () {
@@ -71,14 +78,15 @@ db.on('connected', function () {
 db.on('disconnecting', function () {
   console.log( "moongoose login disconnecting!")});
 
-//expects login to be of form {name: String, password: String}
-//provides callBack with arg: {"name": bool, "password": bool} or {err: error}
+/* expects login to be of form {name: String, password: String}
+ * provides callBack with arg: {"name": bool, "password": bool} or {err: error} */
 function mongoCheckExistence( login, callBack ){
-    console.log( "checking existence: " + JSON.stringify( login ) );
+    console.log( "login.js - checking existence: " + JSON.stringify( login ) );
     var name = login.name;          //assume unique
     var pass = login.password;      //not unique
-    User.findOne({"user": name}, function (err, result) {
+    User.findOne({"name": name}, function (err, result) {
         console.log( "existence result: " + JSON.stringify( result ));
+        //find out why andy is returning null
         if (err !== null) {
            console.log("ERROR: " + err);
            callBack({"err": err});
@@ -96,8 +104,8 @@ function mongoCheckExistence( login, callBack ){
      });
 }
 
-//expects login to be of form {name: String, password: String}
-//provides callBack with arg: {"saved": bool} or {err: error}
+/* expects login to be of form {name: String, password: String}
+* provides callBack with arg: {"saved": bool} or {err: error} */
 function mongoRegister( login, callBack ){
   mongoCheckExistence( login, function( result ){
     if( result.err ){
@@ -107,8 +115,9 @@ function mongoRegister( login, callBack ){
     if( result.name ){
          callBack({"saved": false});  //exists so was not saved
     } else {
+        console.log("making new user. name: "+ JSON.stringify( login ));
          //Big thing to note - we are not waiting for save result before calling back to client
-         var user = new User( {"user": login.name, password: login.password,
+         var user = new User( {"name": login.name, password: login.password,
                                 "history": [], "compromised": [] });
          user.save(function (err, doc){ 
            console.log( "register result: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));
@@ -118,19 +127,19 @@ function mongoRegister( login, callBack ){
  });
 }
 
-//expects login to be of form {name: String, password: String}
-//provides callBack with arg: {"name": bool, "password": bool} or {err: error}
+/* expects login to be of form {name: String, password: String}
+* provides callBack with arg: {"name": bool, "password": bool} or {err: error} */
 function mongoLogin( login, callBack ){
   mongoCheckExistence( login, function( result ){
-      if( result.err )
-           callBack({"err": result.err});  //just pass it back to callee
-      else
-           callBack(result);  //let callee know how it matched
+    if( result.err )
+         callBack({"err": result.err});  //just pass it back to callee
+    else
+         callBack(result);  //let callee know how it matched
    });
 }
 
 module.exports = {
-          "handleRegistration": mongoRegister,
-          "handleLogin": mongoLogin,
-          "checkExistence": mongoCheckExistence
-				};
+  "handleRegistration": mongoRegister,
+  "handleLogin": mongoLogin,
+  "checkExistence": mongoCheckExistence
+};

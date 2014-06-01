@@ -1,99 +1,106 @@
 /**
 * Holly Brice & Heidi Niu
-* CIS399: Final Project
+* CIS 399: Final Project
 */
-console.log("top of file");
+console.log("matcher_controller - top of file");
 
+/* handles Login with exsisting user result */
 function handleLoginResult(resp_body) {
     console.log("Entered handleLoginResult.");
-    console.log( resp_body );
+    console.log("resp_body " + JSON.stringify (resp_body ) );
     $("#feedback").text( JSON.stringify( resp_body) );
-    sessionStorage.setItem( 'name', resp_body.user ); //setting global variable with name of user
+    sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
     if( resp_body.url ) window.location = resp_body.url; //load main app page
 };
 
+/* handles Register new user result */
 function handleRegisterResult(resp_body) {
     console.log("Entered handleRegisterResult.");
-    console.log( resp_body );
+    console.log("respt_body: " + JSON.stringify( resp_body ) );
     $("#feedback").text( JSON.stringify( resp_body) )
-    sessionStorage.setItem( 'name', resp_body.user ); //setting global variable with name of user
+    sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
     if( resp_body.url ) window.location = resp_body.url;
 };
 
+/* Handles button clicks */
 var index_main = function (){
-  console.log("inside index_main");
-  $("button#login").on("click", function (event){ 
-        console.log("login button clicked");
+  console.log("matcher_controller - inside index_main");
+  /* Login exsisting user button */
+  $("button#loginButton").on("click", function (event){ 
+        console.log("matcher_controller - login button clicked");
         $.get("login.json",
                {"name": $("#old_name").val(), "password": $("#old_pass").val() },
                handleLoginResult);
    });
 
-   $("button#register").on("click", function (event){ 
-    console.log("register button clicked");
+    /* Register new user Button */
+   $("button#registerButton").on("click", function (event){ 
+    console.log("matcher_controller - register button clicked");
         $.post("register.json",
                {"name": $("#new_name").val(), "password": $("#new_pass").val() },
                handleRegisterResult);
    });
 
+   /* On places.html - saves the 'user' profile choices. */
    $("button#save").on("click", function( event ){
       //get all data together
-      console.log("Save - button clicked.");
+      console.log("matcher_controller - Save - button clicked.");
       var meal_time = $("select#mealtime").val();
       var food_category = $("select#food_category").val();
       var price = $("select#price").val();
       var goal_meal = $("input#goal_meal").val();
       var name = sessionStorage.getItem('name'); 
-      console.log("^^^^^ " + meal_time, food_category, price, goal_meal);
+      console.log("matcher_controller - ^^^^^ " + meal_time, food_category, price, goal_meal, name);
       // it is getting the correct info
-      var updatedUser = {"name": name,
-              "meal_time": meal_time, 
-              "food_category": food_category, 
-              "price": price, 
-              "goal_meal": goal_meal
-            };
+      var updatedUser = {
+          "name": name,
+          "meal_time": meal_time, 
+          "food_category": food_category, 
+          "price": price, 
+          "goal_meal": goal_meal
+      };
        
        //send it to server
       $.post("save.json", updatedUser, function( err, result ){
-          console.log("Sending update to server");
-        //alert("Err: " + err + "\nStatus: " + result);
+          console.log("matcher_controller - updateUser: " + JSON.stringify( updatedUser) );
+          console.log("matcher_controller - Sending update to server");
+          console.log("^^^^^ "+ JSON.stringify( err));
+
         if( err ){   
-          console.log("Error while sending to server = " + err);
-          res.json( err );  //if error occurs
+          console.log("matcher_controller - Error while sending to server = " + JSON.stringify( err) );
+          result.json( err );  //if error occurs'
         } else {
-          res.json( result ); //send the result
+          console.log("result: " + result);
+    //      result.json( result ); //send the result
         }
         $("#feedback").text("This data was saved");
       }); 
 
       //update model
-      UserModel.setAll( {"meal_time": meal_time, "food_category": food_category, "price": price, "goal_meal": goal_meal});
+      UserModel.setAll( {"name": name, "meal_time": meal_time, "food_category": food_category, "price": price, "goal_meal": goal_meal});
      
-     }); //end of button
+     }); //end of save button
 
-  $("button#retrieve").on("click", function( event ){
+  /* On places.html when recommendation button is clicked, pull 'user' info and match against db and display result on page. */
+  $("button#recommendation").on("click", function( event ){
       //get all data together
-      console.log("Retrieve - button clicked.");
+      console.log("matcher_controller - Recommendation - button clicked.");
       $("#feedback").empty();
-
-      console.log( UserModel.getAll() );
-
-      var meal_time = $("select#mealtime").val();
-      var food_category = $("select#food_category").val();
-      var price = $("select#price").val();
-      var goal_meal = $("input#goal_meal").val();
+      var data = UserModel.getAll();
+      //console.log("Usermodel.getAll(): " + JSON.stringify( UserModel.getAll() ));
+      console.log("data: "+ JSON.stringify( data) );
+      var meal_time = data.meal_time;
+      var food_category = data.food_category;
+      var price = data.price;
+      var goal_meal = data.goal_meal;
       var name = sessionStorage.getItem('name'); 
+
+      //var restaurantData = RestaurantModel.getAll( meal_time, food_category, price, goal_meal );
+      //console.log("****** "+ JSON.stringify( restaurantData ));
       
        //for testing output - will want to get info from server
-      $("#feedback").text("Meal time = " + meal_time +
-         ". Food category = " + food_category + 
-         ". Price = " + price + 
-         ". Goal Meal = " + goal_meal + 
-         ". Name = " + name + ".");
-
-  }); //end of button
-
-
+      $("#feedback").text("May we recommend... ");
+  }); //end of recommend button
 
 
 } //end of main

@@ -1,9 +1,12 @@
-
+/*
+* Holly Brice & Heidi Niu
+* CIS 399: Final Project
+*/
 var login = require("./login.js");
 
 var cookie_options = {};
 
-//handlers for login page
+/** HANDLERS FOR LOGIN PAGE */
 
 //expect body to be {name: String, password: String}
 //provides callBack with either {url: url} or {name: Bool, password: Bool}
@@ -15,8 +18,8 @@ function loginHandler(req, res){
         if( janswer.name !== true || janswer.password !== true )
             res.json( janswer );
         else {
-            res.cookie('user', the_body.name, cookie_options);
-            res.json({"url": "./places.html"});
+            res.cookie('name', the_body.name, cookie_options);
+            res.json({"url": "./places.html", "name": the_body.name});
         };
     });
 }
@@ -31,14 +34,14 @@ function registerHandler(req, res){
     if( janswer.saved === false )
         res.json( janswer );
     else {
-        res.cookie('user', the_body.name, cookie_options);
-        res.json({"url": "./places.html"});
+        res.cookie('name', the_body.name, cookie_options);
+        res.json({"url": "./places.html", "name": the_body.name});
     };
 });
 }
 
 
 module.exports = {
-          "loginHandler": loginHandler,
-           "registerHandler": registerHandler,
-                };
+  "loginHandler": loginHandler,
+  "registerHandler": registerHandler,
+};

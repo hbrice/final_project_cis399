@@ -3,8 +3,7 @@
 * CIS 399: Final Project
 */
 
-// this is just a comment right now... 
-//each name is unique
+/*this is just a comment right now...  each name is unique */
 var UserSchema = {
 	name: {type: String, unique: true}, //ie. Bob
 	meal_time: String, //ie. breakfast
@@ -13,8 +12,8 @@ var UserSchema = {
 	goal_meal: String //ie. fried rice
 };
 
-//defualt user is null because they have to login
-// if you want to put post in this file, put it in set, and setAll and remove from matcher_controller
+/*defualt user is null because they have to login.
+if you want to put post in this file, put it in set, and setAll and remove from matcher_controller */
 var UserModel = {
 	name: null, 
 	meal_time: null,
@@ -46,11 +45,11 @@ var UserModel = {
 		new_keys.every( function( current ){
 			if( model[current] === undefined ){
 				console.error("Empty field, add text");
-				return true; //false would break it
+				return true; /*false would break it*/
 			} else {
 				console.log("** setting all.");
 				model[current] = obj[current];
-				return true;	//false would break it
+				return true; /*false would break it*/
 			}
 		});
 	}
@@ -65,13 +64,42 @@ var UserModel = {
 //UserModel.set( 'goal_meal': "frozen yogurt" );
 //UserModel.setAll('food_category': "American", 'meal_time': "lunch" );
 
-// var RestaurantSchema = {name: {'unique': true, type: String}, meal_time: [String], food_category: [String], price: String};
-// var RestaurantModel = {'name': null,
-// 					 'meal_time': null,
-// 					 'food_category': null,
-// 					 'price': null
-// 					 getAll(), setAll( RestaurantSchema ), get(), set()
-// 					};
+/* Defining Retaurant model for database */
+/* set up resturant collection */
+// var RestaurantSchema = mongoose.Schema({ 
+// 	 restaurant_name: {'unique': true, type: String},
+//      meal_time: [String],
+//      food_category: [String], 
+//      price: String, 
+//      goal_meal: [String]
+// });
+
+// var RestaurantModel = {
+//     restaurant_name: null,
+//     meal_time: null,
+//     food_category: null,
+//     price: null,
+//     goal_meal: null,
+//     getAll: function( meal_time, food_category, price, goal_meal ){
+//      	//trying to match all Restaurants that match any of these statemnts
+//     	Restaurant.find({ $or: [ { meal_time: meal_time}, {food_category: food_category}, {price: price}, {goal_meal: goal_meal} ]}, function(err, result){
+//      		console.log("RESULT: " + JSON.stringify( result ));
+//      	});
+//   	}
+// };
+
+// var Restaurant = model("Restaurant", RestaurantSchema);
+
+// /* Restaurant entry for DB */
+// var query = {"restaurant_name": "Caspian", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["mediterranean", "american"], "price": "min", "goal_meal": ["egg", "curry", "salad", "quesadilla", "burger", "gyro", "falafel", "burrito"]};  //add for testing
+
+// Restaurant.findOneAndUpdate( query, {}, {upsert: true}, function(err, doc){
+//     console.log( "test err: " + err);
+//     console.log( "test doc: " + doc);
+// });
+
+
+
 // var AllRestaurants = {
 // 					'the_list': []
 // 					//addProvider, allProviders, findProviders, removeProvider

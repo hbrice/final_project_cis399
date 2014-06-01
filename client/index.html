@@ -1,4 +1,10 @@
 <!doctype html>
+<!-- 
+Holly Brice & Heidi Niu 
+CIS 399: Final Project
+-->
+
+
 <html>
 
   <head>
@@ -6,7 +12,7 @@
       <link rel="stylesheet" type="text/css" href="./css/style.css">
       <script src="http://code.jquery.com/jquery-latest.min.js"></script>
       <script src="./js/models.js"></script>
-
+      <script src="login.js"></script>
       <script src="./js/matcher_controller.js"></script>
       <script>
         $(document).ready(index_main);
@@ -24,7 +30,7 @@
          <span class="directions">Choose login password: </span>
         <input id="new_pass" type="text">
         <p>
-        <button id="register">Register</button>
+        <button id="registerButton">Register</button>
     </section>
 
     <section id="login">
@@ -34,7 +40,7 @@
         <span class="directions">and password: </span>
         <input id="old_pass" type="text">
         <p>
-        <button id="login">Log In</button>
+        <button id="loginButton">Log In</button>
     </section>
     
     <section id="result">
