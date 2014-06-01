@@ -12,8 +12,8 @@ if (process.env.VCAP_SERVICES) {
    login_mongoUrl = services["mongolab"][0].credentials.uri;
 } else {
    //use this when not running on Cloud Foundry
-   console.log("Using localhost/login2");
-   mongoUrl = "mongodb://localhost/login2"; //creating db called login2
+   console.log("Using localhost/hhdb");
+   mongoUrl = "mongodb://localhost/hhdb"; //creating db called hhdb (heidi/holly database)
 }
 
 mongoose.connect(mongoUrl);  //createConnection did not work here! Odd. Works in foods.js!

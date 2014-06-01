@@ -95,11 +95,54 @@ var index_main = function (){
       var goal_meal = data.goal_meal;
       var name = sessionStorage.getItem('name'); 
 
-      //var restaurantData = RestaurantModel.getAll( meal_time, food_category, price, goal_meal );
-      //console.log("****** "+ JSON.stringify( restaurantData ));
+      /*$.getJSON("retrieve.json", function(err, result){
+        console.log("inside getJSON function.");
+        if( err ){   
+          console.log("matcher_controller - Error while sending to server = " + JSON.stringify( err) );
+          result.json( err );  //if error occurs'
+        } else {
+          console.log("result: " + result); //result = success
+          var restaurantData = Restaurant.getAll( restaurant_name, meal_time, food_category, price, goal_meal );
+          console.log("matcher_controller- RestaurantDATA: "+ JSON.stringify( restaurantData ));
+
+        //      result.json( result ); //send the result
+        }
+
+        Restaurant.forEach( function( obj ){
+          console.log("** " + obj);
+        });*/
+                    /*function( player ){
+                      var name = player.person.handle;
+                       var $all_cards = $(player.hand);
+                       //$hand = [{rank: "two", suit: "clubs"}, {...}. etc.] - an array of five card objects
+                       var $hand = $all_cards.map( function (i, card) {         //jquery map has args reversed - sigh
+                           var $card = $(card);   //jquery map unwraps arg - need to wrap it again
+                           var obj = {};
+                           obj.rank = $card[0].rank;
+                           obj.suit = $card[0].suit;
+                           return obj;
+                          });
+                       player.hand = $.makeArray( $hand );    //now have simple array
+                    });  
+                    //end forEach*/
+
+
+        $("#feedback").text("May we recommend... ");
+      });
+
+      /* check all the resturants to see what matches, then get more specific from there */
+     // var restaurantData = Restaurant.getAll( restaurant_name, meal_time, food_category, price, goal_meal );
+     /* for (var place in all_restaurants){
+        var value = all_restaurants[place];
+        Restaurant.findOneAndUpdate( value, {}, {upsert: true}, function(err, doc){
+          console.log( "test err: " + err);
+          console.log( "test doc: " + doc);
+        });
+      }*/
+
       
        //for testing output - will want to get info from server
-      $("#feedback").text("May we recommend... ");
+      //$("#feedback").text("May we recommend... ");
   }); //end of recommend button
 
 

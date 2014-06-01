@@ -12,7 +12,7 @@ if (process.env.VCAP_SERVICES) {
            mongoUrl = services["mongolab"][0].credentials.uri;
 } else {
            //use this when not running on Cloud Foundry
-           mongoUrl = "mongodb://localhost/login2";
+           mongoUrl = "mongodb://localhost/hhdb";
 }
 
 //test out moongoose
@@ -36,6 +36,8 @@ process.on('SIGINT', function() {
   });
 });
 
+/* Defining Profile model for database */
+
 var profile_schema = mongoose.Schema({ 
     name: String, //ie. Bob
     meal_time: String, //ie. breakfast
@@ -45,12 +47,60 @@ var profile_schema = mongoose.Schema({
   });
 
 var profile_model = mongoose.model("profile", profile_schema); //profile => collection profiles
+// ie. {"name": "Bob", "meal_time": ["breakfast"], "food_category": ["mexican"], "price": "min", "goal_meal": "egg"};
 
-//put something in db to define it.
-// var query = {"name": "steve", food_category: "Thai"};
-// profile_model.findOneAndUpdate( query, {}, {upsert: true}, function( err, doc){
-//                                   console.log("profile test query: " + err + " & " + doc);}
-//                                   );
+/* Defining Retaurant model for database */
+/* set up resturant collection */
+var RestaurantSchema = mongoose.Schema({ 
+  restaurant_name: {'unique': true, type: String},
+  meal_time: [String],
+  food_category: [String], 
+  price: String, 
+  goal_meal: [String]
+});
+
+var RestaurantModel = {
+  restaurant_name: null,
+  meal_time: null,
+  food_category: null,
+  price: null,
+  goal_meal: null,
+  getAll: function(restaurant_name, meal_time, food_category, price, goal_meal ){
+    //trying to match all Restaurants that match any of these statemnts
+    Restaurant.find({ $or: [ { meal_time: meal_time}, {food_category: food_category}, {price: price}, {goal_meal: goal_meal} ]}, function(err, result){
+      console.log("restaurant.js - RESULT: " + JSON.stringify( result ));
+    });
+  }
+};
+
+var Restaurant = mongoose.model("Restaurant", RestaurantSchema);
+
+/* Restaurant entry for DB */
+var all_restaurants = [
+  {"restaurant_name": "Qdoba", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["mexican"], "price": "min", "goal_meal": ["egg", "burrito", "nacho", "gumbo", "taco", "salad", "quesadilla", "chip"]},
+  {"restaurant_name": "Rennies_Landing", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["pubfood", "american"], "price": "min", "goal_meal": ["egg","chicken", "gardenburger", "steak", "nacho", "hotwing", "pancake", "salad", "quesadilla", "burger", "gyro", "falafel", "burrito"]},
+  {"restaurant_name": "Qdoba", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["mexican"], "price": "min", "goal_meal": ["egg", "burrito", "nacho", "gumbo", "taco", "salad", "quesadilla", "chip"]},
+  {"restaurant_name": "East_Meets_West", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["asian"], "price": "min", "goal_meal": ["fried_rice"]},
+  {"restaurant_name": "Glenwood", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["american", "asian"], "price": "med", "goal_meal": ["egg", "burrito"]},
+  {"restaurant_name": "Webfoot_Bar_and_Grill", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["american"], "price": "med", "goal_meal": ["egg", "burrito"]},
+  {"restaurant_name": "Alder_Stree_Fish_Co", "meal_time": ["lunch", "dinner"], "food_category": ["american"], "price": "med", "goal_meal": ["fish_and_chip", "burrito"]},
+  {"restaurant_name": "Sweet_Basil_Express", "meal_time": ["lunch", "dinner"], "food_category": ["thai"], "price": "med", "goal_meal": ["fish_and_chip", "burrito"]},
+  {"restaurant_name": "DairyQueen", "meal_time": ["lunch", "dinner"], "food_category": ["american"], "price": "min", "goal_meal": ["burger","salad", "quesadilla", "chicken", "shrimp", "hotdog"]},
+  {"restaurant_name": "DoughCo", "meal_time": ["lunch", "dinner"], "food_category": ["italian"], "price": "min", "goal_meal": ["calzone"]},
+  {"restaurant_name": "Pegasus_Pizza", "meal_time": ["lunch", "dinner"], "food_category": ["italian"], "price": "med", "goal_meal": ["pizza", "salad", "calzone", "sandwiche"]}
+];
+
+/* for loop to add all db entries */
+for (var place in all_restaurants){
+  var value = all_restaurants[place];
+  Restaurant.findOneAndUpdate( value, {}, {upsert: true}, function(err, doc){
+  /*  console.log( "test err: " + err);
+    console.log( "test doc: " + doc);*/
+  });
+}
+console.log("Database done updating Restaurants.");
+/* *************** */
+
 
 function mongoGet( name, callBack ){
     console.log( "mongoGet: " + name );
