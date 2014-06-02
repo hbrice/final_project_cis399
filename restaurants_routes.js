@@ -13,12 +13,12 @@ function retrieveProfileHandler(req, res){
     places.getProfile( name, function ( janswer ){res.json( janswer );} );
 }
 
-function retrieveRecommendationHandler(req, res){
-    console.log("the cookie in retrieveRecommendationHandler: " + JSON.stringify( req.cookies ));
+function retrieveRestaurantHandler(req, res){
+    //console.log("the cookie in retrieveRestaurantHandler: " + JSON.stringify( req.cookies ));
     var the_body = req.body;
     console.log("the_body: " + JSON.stringify( the_body) );
-    var name = req.cookies.name;
-    places.getRecommendation( name, function ( janswer ){res.json( janswer );} );
+    var restaurant_name = req.cookies.restaurant_name;
+    places.getRestaurant( restaurant_name, function ( janswer ){res.json( janswer );} );
 }
 
 function saveProfileHandler(req, res){
@@ -40,5 +40,5 @@ module.exports = {
    "retrieveProfileHandler": retrieveProfileHandler,
    "saveProfileHandler": saveProfileHandler,
    "reloadRestaurants": reloadPlacesHandler,
-   "retrieveRecommendationHandler": retrieveRecommendationHandler
+   "retrieveRestaurantHandler": retrieveRestaurantHandler
 };

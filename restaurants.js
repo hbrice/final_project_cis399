@@ -105,13 +105,29 @@ console.log("Database done updating Restaurants.");
 function mongoGet( name, callBack ){
     console.log( "mongoGet: " + name );
     profile_model.find({"name": name}, function (err, result) {
-          console.log( "result of find: " + result);
-          if (err !== null) {
-             console.log("ERROR: " + err);
-             callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
-             return;
+        console.log( "result of find: " + result);
+        if (err !== null) {
+           console.log("ERROR: " + err);
+           callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+           return;
        }
-       if( result.length > 0 ) callBack({"food_category": result[0].food, "meal_time": body.meal_time, "goal_meal": body.goal_meal, "price": body.price});
+       if( result.length > 0 ) callBack({"food_category": result[0].food_category, "meal_time": result[0].meal_time, "goal_meal": result[0].goal_meal, "price": result[0].price});
+       else callBack({"food_category": null});
+       }
+  );
+}
+
+
+function mongoGetRestaurant( body, callBack ){
+    console.log( "mongoGetRestaurant: " + body );
+    Restaurant.find({"food_category": body.food_category}, function (err, result) {
+        console.log( "result of find: " + result);
+        if (err !== null) {
+           console.log("ERROR: " + err);
+           callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+           return;
+       }
+       if( result.length > 0 ) callBack({"food_category": result[0].food_category, "meal_time": result[0].meal_time, "goal_meal": result[0].goal_meal, "price": result[0].price});
        else callBack({"food_category": null});
        }
   );
@@ -130,5 +146,6 @@ function mongoSave( body, callBack ){
 
 module.exports = {
   "getProfile": mongoGet,
-  "saveProfile": mongoSave
+  "saveProfile": mongoSave,
+  "getRestaurant": mongoGetRestaurant
 };
