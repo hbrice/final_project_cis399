@@ -29,9 +29,11 @@ function handleRetrieveResult(resp_body) {
     var the_body = resp_body;
     var msg = resp_body.message;
     var restaurant_name = resp_body.restaurant_name;
-
-    $("#feedback").text("May we recommend... " + restaurant_name);
-
+    if( msg === "no input"){
+      $("#feedback").text("You forgot to enter input and save!");
+    }else{
+      $("#feedback").text("May we recommend... " + restaurant_name);
+    }
 };
 
 /* Handles button clicks */

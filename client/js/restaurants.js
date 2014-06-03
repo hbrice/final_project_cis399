@@ -78,7 +78,7 @@ var Restaurant = mongoose.model("Restaurant", RestaurantSchema);
 /* Restaurant entry for DB */
 var all_restaurants = [
   {"restaurant_name": "Caspian", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["mediterranean", "american"], "price": "min"},
-  {"restaurant_name": "Rennies_Landing", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["pubfood", "american"], "price": "min"},
+  {"restaurant_name": "Rennies Landing", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["pubfood", "american"], "price": "min"},
   {"restaurant_name": "Qdoba", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["mexican"], "price": "min"},
   {"restaurant_name": "East Meets West", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min"},
   {"restaurant_name": "Glenwood", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["american", "asian"], "price": "med"},
@@ -137,6 +137,12 @@ function mongoGet( name, callBack ){
 function mongoGetRestaurant( body, callBack ){ 
     console.log( "mongoGetRestaurant, body: " + JSON.stringify( body ));
     if( body !== undefined){
+        var food_category = body.food_category;
+        var price = body.price;
+        var meal_time = body.meal_time;
+        var len;
+        var randomNum;
+        console.log(food_category, price, meal_time);
         if (body.food_category !== "0" && body.price !== "0" && body.meal_time !== "0"){
             Restaurant.find({"food_category": body.food_category, "price": body.price, "meal_time": body.meal_time}, function (err, result) {
             console.log( "result of find: " + JSON.stringify(result)); //result is a list of objects
@@ -146,15 +152,97 @@ function mongoGetRestaurant( body, callBack ){
                return;
                //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
             } else {
-              console.log("LALALALALLALA");
-              var len = result.length;
+              console.log("A");
+              len = result.length;
               console.log("length of result is: " + JSON.stringify( len ));
-              var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
-              callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
-              return;
+              // if no match check for just two. and so on
+              if (len === 0){ // no match for all 3 entries
+                console.log("NO MATCH. Check for less.");
+                //check 2 entries
+                Restaurant.find({"food_category": body.food_category, "price": body.price}, function (err, result) {
+                  console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
+                  if (err !== null) { //An error has occured
+                     console.log("ERROR: " + err);
+                     callBack({"message": "no match"});
+                     return;
+                     //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+                  } else {
+                    console.log("AA");
+                    len = result.length;
+                    console.log("length of result is: " + JSON.stringify( len ));
+                    if( len === 0 ){ // check 1 entry
+                        Restaurant.find({"food_category": body.food_category}, function (err, result) {
+                            console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
+                            if (err !== null) { //An error has occured
+                               console.log("ERROR: " + err);
+                               callBack({"message": "no match"});
+                               return;
+                               //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+                            } else {
+                              console.log("E");
+                              len = result.length;
+                              console.log("length of result is: " + JSON.stringify( len ));
+                              if( len === 0 ){  //check a differnt 1 entry category
+                                Restaurant.find({"price": body.price}, function (err, result) {
+                                    console.log( "result of find: " + JSON.stringify(result)); //result is a list of objects
+                                    if (err !== null) { //An error has occured
+                                       console.log("ERROR: " + err);
+                                       callBack({"message": "no match"});
+                                       return;
+                                    } else {
+                                      console.log("B");
+                                      len = result.length;
+                                      console.log("length of result is: " + JSON.stringify( len ));
+                                      if( len === 0){ //check the last category
+                                          Restaurant.find({"meal_time": body.meal_time}, function (err, result) {
+                                          console.log( "result of find: " + JSON.stringify(result)); //result is a list of objects
+                                          if (err !== null) { //An error has occured
+                                             console.log("ERROR: " + err);
+                                             callBack({"message": "no match"});
+                                             return;
+                                             //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+                                          } else {
+                                            console.log("B");
+                                            len = result.length;
+                                            if(len === 0){
+                                              alert("GAH");
+                                              return;
+                                            }
+                                            console.log("length of result is: " + JSON.stringify( len ));
+                                            randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
+                                            callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
+                                            return;
+                                          }
+                                        });
+                                      }else{
+                                         randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
+                                      callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
+                                      return;
+                                      }
+                                    }
+                                  });
+                              } else {
+                                randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
+                                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
+                                return;
+                              }
+                            }
+                        });
+                    } else { // 2 entry return
+                        randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
+                        callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
+                        return;
+                    }
+                  }
+                });
+              } else { // all entries match return restaurant
+                  console.log("all entries match");
+                  randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
+                  console.log(randomNum);
+                  callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
+                  return;
+              }
             }
-           //if( result.length > 0 ) callBack({"food_category": result[0].food_category, "meal_time": result[0].meal_time, "goal_meal": result[0].goal_meal, "price": result[0].price});
-          // else callBack({"food_category": null});
           });
         } else if(body.food_category !== "0" && body.price !== "0"){
           Restaurant.find({"food_category": body.food_category, "price": body.price}, function (err, result) {
@@ -165,11 +253,12 @@ function mongoGetRestaurant( body, callBack ){
                return;
                //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
             } else {
-              console.log("LALALALALLALA");
-              var len = result.length;
+              console.log("B");
+              len = result.length;
               console.log("length of result is: " + JSON.stringify( len ));
-              var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
-              callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
+              randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
+              callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
+              return;
             }
           });
         } else if(body.food_category !== "0" && body.meal_time !== "0"){
@@ -181,11 +270,10 @@ function mongoGetRestaurant( body, callBack ){
                  return;
                  //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
               } else {
-                console.log("LALALALALLALA");
-                var len = result.length;
+                console.log("C");len = result.length;
                 console.log("length of result is: " + JSON.stringify( len ));
-                var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
-                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
+                randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
+                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
                 return;
               }
             });
@@ -198,10 +286,10 @@ function mongoGetRestaurant( body, callBack ){
                  return;
                  //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
               } else {
-                console.log("LALALALALLALA");
-                var len = result.length;
+                console.log("D");
+                len = result.length;
                 console.log("length of result is: " + JSON.stringify( len ));
-                var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
+                randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
                 callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                 return;
               }
@@ -215,11 +303,11 @@ function mongoGetRestaurant( body, callBack ){
                    return;
                    //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
                 } else {
-                  console.log("LALALALALLALA");
-                var len = result.length;
-                console.log("length of result is: " + JSON.stringify( len ));
-                var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
-                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
+                  console.log("E");
+                  len = result.length;
+                  console.log("length of result is: " + JSON.stringify( len ));
+                  randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
+                  callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                   return;
                 }
             });
@@ -232,11 +320,11 @@ function mongoGetRestaurant( body, callBack ){
                      return;
                      //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
                   } else {
-                    console.log("LALALALALLALA");
-                var len = result.length;
-                console.log("length of result is: " + JSON.stringify( len ));
-                var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
-                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
+                    console.log("F");
+                    len = result.length;
+                    console.log("length of result is: " + JSON.stringify( len ));
+                    randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
+                    callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                     return;
                   }
               });
@@ -249,16 +337,18 @@ function mongoGetRestaurant( body, callBack ){
                      return;
                      //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
                   } else {
-                    console.log("LALALALALLALA");
-                var len = result.length;
-                console.log("length of result is: " + JSON.stringify( len ));
-                var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
-                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
+                    console.log("G");
+                    len = result.length;
+                    console.log("length of result is: " + JSON.stringify( len ));
+                    randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
+                    callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                     return;
                   }
               });
          } else {
           console.log("ERROR with finding.");
+          callBack({"message": "no input"});
+          return;
          }
  
     } else {
