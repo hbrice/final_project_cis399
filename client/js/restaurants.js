@@ -133,7 +133,7 @@ function mongoGet( name, callBack ){
   );
 }
 
-
+/* This goes back to retrieveRestaurantHandler in restaurant.js - it will return a restaurant name */
 function mongoGetRestaurant( body, callBack ){ 
     console.log( "mongoGetRestaurant, body: " + JSON.stringify( body ));
     if( body !== undefined){
@@ -147,7 +147,10 @@ function mongoGetRestaurant( body, callBack ){
                //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
             } else {
               console.log("LALALALALLALA");
-              callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+              var len = result.length;
+              console.log("length of result is: " + JSON.stringify( len ));
+              var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
+              callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
               return;
             }
            //if( result.length > 0 ) callBack({"food_category": result[0].food_category, "meal_time": result[0].meal_time, "goal_meal": result[0].goal_meal, "price": result[0].price});
@@ -163,8 +166,10 @@ function mongoGetRestaurant( body, callBack ){
                //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
             } else {
               console.log("LALALALALLALA");
-              callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
-              return;
+              var len = result.length;
+              console.log("length of result is: " + JSON.stringify( len ));
+              var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
+              callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
             }
           });
         } else if(body.food_category !== "0" && body.meal_time !== "0"){
@@ -177,7 +182,10 @@ function mongoGetRestaurant( body, callBack ){
                  //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
               } else {
                 console.log("LALALALALLALA");
-                callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+                var len = result.length;
+                console.log("length of result is: " + JSON.stringify( len ));
+                var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
+                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                 return;
               }
             });
@@ -191,7 +199,10 @@ function mongoGetRestaurant( body, callBack ){
                  //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
               } else {
                 console.log("LALALALALLALA");
-                callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+                var len = result.length;
+                console.log("length of result is: " + JSON.stringify( len ));
+                var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
+                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                 return;
               }
             });
@@ -205,7 +216,10 @@ function mongoGetRestaurant( body, callBack ){
                    //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
                 } else {
                   console.log("LALALALALLALA");
-                  callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+                var len = result.length;
+                console.log("length of result is: " + JSON.stringify( len ));
+                var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
+                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                   return;
                 }
             });
@@ -219,7 +233,10 @@ function mongoGetRestaurant( body, callBack ){
                      //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
                   } else {
                     console.log("LALALALALLALA");
-                    callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+                var len = result.length;
+                console.log("length of result is: " + JSON.stringify( len ));
+                var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
+                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                     return;
                   }
               });
@@ -233,7 +250,10 @@ function mongoGetRestaurant( body, callBack ){
                      //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
                   } else {
                     console.log("LALALALALLALA");
-                    callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+                var len = result.length;
+                console.log("length of result is: " + JSON.stringify( len ));
+                var randomNum = Math.floor(Math.random() * len) + 1; // picks a random number out of restraunts listed
+                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                     return;
                   }
               });
