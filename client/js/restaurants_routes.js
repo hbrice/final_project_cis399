@@ -16,9 +16,11 @@ function retrieveProfileHandler(req, res){
 function retrieveRestaurantHandler(req, res){
     //console.log("the cookie in retrieveRestaurantHandler: " + JSON.stringify( req.cookies ));
     var the_body = req.body;
-    console.log("the_body: " + JSON.stringify( the_body) );
-    var restaurant_name = req.cookies.restaurant_name;
-    places.getRestaurant( restaurant_name, function ( janswer ){res.json( janswer );} );
+    //var food_category = the_body.food_category;
+    console.log("the_body for restaurant handler: " + JSON.stringify( the_body) );
+    //var restaurant_name = req.cookies.restaurant_name;
+    //console.log("restaurant_name: " + JSON.stringify( restaurant_name ));
+    places.getRestaurant( the_body, function ( janswer ){res.json( janswer );} );
 }
 
 function saveProfileHandler(req, res){

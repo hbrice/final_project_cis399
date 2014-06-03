@@ -32,15 +32,18 @@ app.post("/register.json", login_handlers.registerHandler);
 //routes for main app page (foods.html)
 
 console.log("server.js - creating food_handlers");
-var food_handlers = require("./restaurants_routes.js");
+var food_handlers = require("./client/js/restaurants_routes.js"); //i moved the restaurant into client
 
 console.log("server.js - app.get /restrive.json.");
 app.get("/retrieve.json", function(res, req){ 
     	food_handlers.retrieveProfileHandler( res, req); });
 
-console.log("server.js - app.get /retrieveRest.json.");
+/*console.log("server.js - app.get /retrieveRest.json.");
 app.get("/retrieveRest.json", function(res, req){ 
-    	food_handlers.retrieveRestaurantHandler( res, req); });
+    	food_handlers.retrieveRestaurantHandler( res, req); });*/
+
+console.log("server.js - app.get /retrieveRest.json.");
+app.post("/retrieveRest.json", food_handlers.retrieveRestaurantHandler );
 
 console.log("server.js - app.post /save.json.");
 app.post("/save.json", food_handlers.saveProfileHandler);

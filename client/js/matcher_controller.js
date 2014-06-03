@@ -27,6 +27,22 @@ function handleRetrieveResult(resp_body) {
   //now i need to do shit
     console.log("Entered handleRetrieveResult" + JSON.stringify( resp_body ) );
     var the_body = resp_body;
+    var meal_time = resp_body.meal_time;
+    var food_category = resp_body.food_category;
+    var price = resp_body.price;
+    var goal_meal = resp_body.goal_meal;
+    var name = sessionStorage.getItem('name'); 
+
+    console.log("YAYAYAY: " + meal_time, food_category, price, goal_meal);
+   
+    /*Restaurant.find({"food_category": food_category}, function (err, result) {
+        if( err ){
+          console.log( err );
+        }else{
+          console.log("found something with meal_time.");
+          console.log("result: "+ JSON.stringify( result ));
+        }
+    }); */
 
     $("#feedback").text("May we recommend... ");
 
@@ -101,15 +117,20 @@ var index_main = function (){
       //console.log("Usermodel.getAll(): " + JSON.stringify( UserModel.getAll() ));
       console.log("data: "+ JSON.stringify( data) );
       var meal_time = data.meal_time;
+      console.log("$$$$$$meal_time: " + meal_time);
       var food_category = data.food_category;
       var price = data.price;
       var goal_meal = data.goal_meal;
       var name = sessionStorage.getItem('name'); 
-     // var temp = places.Restaurants.getAll();
-    // console.log("temp: " + JSON.stringify( temp ));
+      var sending = { //data is sent to resturants.js -> mongoGetRestaurant
+        "meal_time": meal_time, 
+        "food_category": food_category, 
+        "price": price,
+        "goal_meal": goal_meal
+      }
 
-      $.get("retrieve.json", {}, handleRetrieveResult);// this returns the user info
-     // $.get("retrieveRest.json", {}, handleRetrieveResult);// this returns the user info
+      console.log("SENDING TO RETRIEVEREST.");
+      $.post("retrieveRest.json", sending, handleRetrieveResult);// this returns the user info
 
   }); //end of recommend button
 
