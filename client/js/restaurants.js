@@ -134,24 +134,115 @@ function mongoGet( name, callBack ){
 }
 
 
-function mongoGetRestaurant( body, callBack ){
+function mongoGetRestaurant( body, callBack ){ 
     console.log( "mongoGetRestaurant, body: " + JSON.stringify( body ));
     if( body !== undefined){
-        Restaurant.find({"food_category": body.food_category}, function (err, result) {
-          console.log( "result of find: " + result);
-          if (err !== null) {
-             console.log("ERROR: " + err);
-             callBack({"message": "no match"});
-             return;
-             //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
-          }
-          console.log("LALALALALLALA");
-         //if( result.length > 0 ) callBack({"food_category": result[0].food_category, "meal_time": result[0].meal_time, "goal_meal": result[0].goal_meal, "price": result[0].price});
-        // else callBack({"food_category": null});
-          }
-      );
+        if (body.food_category !== "0" && body.price !== "0" && body.meal_time !== "0"){
+            Restaurant.find({"food_category": body.food_category, "price": body.price, "meal_time": body.meal_time}, function (err, result) {
+            console.log( "result of find: " + JSON.stringify(result)); //result is a list of objects
+            if (err !== null) { //An error has occured
+               console.log("ERROR: " + err);
+               callBack({"message": "no match"});
+               return;
+               //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+            } else {
+              console.log("LALALALALLALA");
+              callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+              return;
+            }
+           //if( result.length > 0 ) callBack({"food_category": result[0].food_category, "meal_time": result[0].meal_time, "goal_meal": result[0].goal_meal, "price": result[0].price});
+          // else callBack({"food_category": null});
+          });
+        } else if(body.food_category !== "0" && body.price !== "0"){
+          Restaurant.find({"food_category": body.food_category, "price": body.price}, function (err, result) {
+            console.log( "result of find: " + JSON.stringify(result)); //result is a list of objects
+            if (err !== null) { //An error has occured
+               console.log("ERROR: " + err);
+               callBack({"message": "no match"});
+               return;
+               //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+            } else {
+              console.log("LALALALALLALA");
+              callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+              return;
+            }
+          });
+        } else if(body.food_category !== "0" && body.meal_time !== "0"){
+            Restaurant.find({"food_category": body.food_category, "meal_time": body.meal_time}, function (err, result) {
+              console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
+              if (err !== null) { //An error has occured
+                 console.log("ERROR: " + err);
+                 callBack({"message": "no match"});
+                 return;
+                 //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+              } else {
+                console.log("LALALALALLALA");
+                callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+                return;
+              }
+            });
+        } else if(body.price !== "0" && body.meal_time !=="0"){
+           Restaurant.find({"price": body.price, "meal_time": body.meal_time}, function (err, result) {
+              console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
+              if (err !== null) { //An error has occured
+                 console.log("ERROR: " + err);
+                 callBack({"message": "no match"});
+                 return;
+                 //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+              } else {
+                console.log("LALALALALLALA");
+                callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+                return;
+              }
+            });
+         } else if(body.food_category !== "0"){
+            Restaurant.find({"food_category": body.food_category}, function (err, result) {
+                console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
+                if (err !== null) { //An error has occured
+                   console.log("ERROR: " + err);
+                   callBack({"message": "no match"});
+                   return;
+                   //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+                } else {
+                  console.log("LALALALALLALA");
+                  callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+                  return;
+                }
+            });
+         } else if(body.price !== "0"){
+            Restaurant.find({"price": body.price}, function (err, result) {
+                  console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
+                  if (err !== null) { //An error has occured
+                     console.log("ERROR: " + err);
+                     callBack({"message": "no match"});
+                     return;
+                     //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+                  } else {
+                    console.log("LALALALALLALA");
+                    callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+                    return;
+                  }
+              });
+         } else if(body.meal_time !=="0"){
+            Restaurant.find({"meal_time": body.meal_time}, function (err, result) {
+                  console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
+                  if (err !== null) { //An error has occured
+                     console.log("ERROR: " + err);
+                     callBack({"message": "no match"});
+                     return;
+                     //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
+                  } else {
+                    console.log("LALALALALLALA");
+                    callBack({"message": "match", "restaurant_name": result[0].restaurant_name})
+                    return;
+                  }
+              });
+         } else {
+          console.log("ERROR with finding.");
+         }
+ 
     } else {
-      console.log("in the else.");
+      console.log("Error.");
     }
 }
 

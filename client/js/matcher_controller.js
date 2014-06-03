@@ -27,26 +27,11 @@ function handleRetrieveResult(resp_body) {
   //now i need to do shit
     console.log("Entered handleRetrieveResult" + JSON.stringify( resp_body ) );
     var the_body = resp_body;
-    var meal_time = resp_body.meal_time;
-    var food_category = resp_body.food_category;
-    var price = resp_body.price;
-    var goal_meal = resp_body.goal_meal;
-    var name = sessionStorage.getItem('name'); 
+    var msg = resp_body.message;
+    var restaurant_name = resp_body.restaurant_name;
 
-    console.log("YAYAYAY: " + meal_time, food_category, price, goal_meal);
-   
-    /*Restaurant.find({"food_category": food_category}, function (err, result) {
-        if( err ){
-          console.log( err );
-        }else{
-          console.log("found something with meal_time.");
-          console.log("result: "+ JSON.stringify( result ));
-        }
-    }); */
+    $("#feedback").text("May we recommend... " + restaurant_name);
 
-    $("#feedback").text("May we recommend... ");
-
-    //$("#feedback").text( JSON.stringify( resp_body) );
 };
 
 /* Handles button clicks */
