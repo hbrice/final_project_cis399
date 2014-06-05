@@ -5,10 +5,11 @@
 console.log("******************************** NEW SESSION *********");
 var mongoose = require("mongoose"),
     mongoUrl;
+    bcrypt = require("bcrypt-nodejs"); //for encrypting password
 
 if (process.env.VCAP_SERVICES) {
    services = JSON.parse(process.env.VCAP_SERVICES);
-   console.log( "servces: " + JSON.stringify( services ));
+   console.log( "services: " + JSON.stringify( services ));
    login_mongoUrl = services["mongolab"][0].credentials.uri;
 } else {
    //use this when not running on Cloud Foundry
@@ -84,6 +85,8 @@ function mongoCheckExistence( login, callBack ){
     console.log( "login.js - checking existence: " + JSON.stringify( login ) );
     var name = login.name;          //assume unique
     var pass = login.password;      //not unique
+    console.log("NAME: " + name);
+    console.log("PASS: " + pass);
     User.findOne({"name": name}, function (err, result) {
         console.log( "existence result: " + JSON.stringify( result ));
         //find out why andy is returning null
@@ -93,15 +96,19 @@ function mongoCheckExistence( login, callBack ){
            return;
         }
         if( result ){
+          console.log("RESULT.PASSWORD: " + result.password);
+          console.log("PASS: " + pass);
+          //console.log("RESULT IS: " + result);
            if( result.password === pass )
               callBack({"name": true, "password": true});  //both matched
-            else
+           else
               callBack({"name": true, "password": false}); //only name matched
+
         } else {
           //could optionally check for password match here - useful info?
           callBack({"name": false, "password": null});     //name did not match
         }
-     });
+    });
 }
 
 /* expects login to be of form {name: String, password: String}
@@ -114,9 +121,32 @@ function mongoRegister( login, callBack ){
     }
     if( result.name ){
          callBack({"saved": false});  //exists so was not saved
-    } else {
+    } 
+    else {
         console.log("making new user. name: "+ JSON.stringify( login ));
-         //Big thing to note - we are not waiting for save result before calling back to client
+        //Big thing to note - we are not waiting for save result before calling back to client
+
+        //encrypt password
+
+        //generate a salt
+        bcrypt.genSalt(10, function(err, salt){
+          if (err) {
+            callBack({"err": err});
+            return;
+          }
+          else {
+          //hash password with salt
+            bcrypt.hash(login.password, salt, null, function(err, hash) {
+              console.log("encrypted password: " + hash);
+              if (err) {
+                callBack({"err": err});
+                return;
+              } 
+              login.password = hash;
+            });
+          }
+        });
+
          var user = new User( {"name": login.name, password: login.password,
                                 "history": [], "compromised": [] });
          user.save(function (err, doc){ 
