@@ -22,6 +22,15 @@ function handleRegisterResult(resp_body) {
     if( resp_body.url ) window.location = resp_body.url;
 };
 
+/* handles Forgot your password result */
+function handlePasswordResult(resp_body) { //FILL IN*******
+    console.log("Entered handlePasswordResult.");
+    console.log("resp_body: " + JSON.stringify (resp_body));
+    //$("#feedback").text( JSON.stringify( resp_body) )
+    //sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
+    //if( resp_body.url ) window.location = resp_body.url;
+};
+
 /* handles Retrieve Recommendation */
 function handleRetrieveResult(resp_body) {
   //now i need to do shit
@@ -53,6 +62,14 @@ var index_main = function (){
         $.post("register.json",
                {"name": $("#new_name").val(), "password": $("#new_pass").val() },
                handleRegisterResult);
+   });
+
+   /* Forgot your password button*/
+   $("button#passwordButton".on("click", function (event){
+    console.log("matcher_controller - password button clicked");
+      $.get("password.json",
+              {"name": $("#old_name").val()},
+              handlePasswordResult);
    });
 
    /* On places.html - saves the 'user' profile choices. */
