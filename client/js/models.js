@@ -9,7 +9,6 @@ var UserSchema = {
 	meal_time: String, //ie. breakfast
 	food_category: String, //ie. Thai
 	price: String, //ie. $8-$15
-	goal_meal: String //ie. fried rice
 };
 
 /*defualt user is null because they have to login.
@@ -19,7 +18,6 @@ var UserModel = {
 	meal_time: null,
 	food_category: null,
 	price: null,
-	goal_meal: null,
 	get: function( field ){  //could go to server and checkto see if data is up to date
 		if( this[field] === undefined ) console.error("field error " + field);
 		return this[field];},

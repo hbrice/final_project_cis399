@@ -28,9 +28,22 @@ CIS 399: Final Project
         <span class="directions">Choose login name: </span>
         <input id="new_name" type="text">
         <p>
-         <span class="directions">Choose login password: </span>
+        <span class="directions">Choose login password: </span>
         <input id="new_pass" type="text">
+        </p>
         <p>
+          <span class="directions">Choose security question: </span>
+          <select id="security_question" style="margin-left: 20px; width: 210px">
+            <option value="0"> ----- </option>
+            <option value="Q1">What is the last name of your third grade teacher?</option>
+            <option value="Q2">What was the make and model of your first car?</option>
+            <option value="Q3">What is your mom's middle name?</option>
+          </select>
+        </p>
+        <p>
+          <span class="directions">Choose answer to security question: </span>
+          <input id="security_answer" type="text">
+        </p>
         <button id="registerButton">Register</button>
     </section>
 

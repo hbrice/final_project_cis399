@@ -65,7 +65,7 @@ var index_main = function (){
    });
 
    /* Forgot your password button*/
-   $("button#passwordButton".on("click", function (event){
+   $("button#passwordButton").on("click", function (event){
     console.log("matcher_controller - password button clicked");
       $.get("password.json",
               {"name": $("#old_name").val()},
