@@ -1,7 +1,7 @@
 
-var //express = require("express"),
-    //http = require("http"),
-    //connect = require("connect"),
+var express = require("express"),
+    http = require("http"),
+    connect = require("connect"),
     places = require("./restaurants.js");
 
 /** handlers for main app page (places.html) */

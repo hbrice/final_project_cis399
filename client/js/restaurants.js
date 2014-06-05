@@ -78,7 +78,7 @@ var Restaurant = mongoose.model("Restaurant", RestaurantSchema);
 /* Restaurant entry for DB */
 var all_restaurants = [
   {"restaurant_name": "Caspian", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["mediterranean", "american"], "price": "min"},
-  {"restaurant_name": "Rennies Landing", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["pubfood", "american"], "price": "min"},
+  {"restaurant_name": "Rennies_Landing", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["pubfood", "american"], "price": "min"},
   {"restaurant_name": "Qdoba", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["mexican"], "price": "min"},
   {"restaurant_name": "East Meets West", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min"},
   {"restaurant_name": "Glenwood", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["american", "asian"], "price": "med"},
@@ -133,7 +133,7 @@ function mongoGet( name, callBack ){
   );
 }
 
-/* This goes back to retrieveRestaurantHandler in restaurant.js - it will return a restaurant name */
+/* This goes back to retrieveRestaurantHandler in restaurant_routes.js - it will return a restaurant name */
 function mongoGetRestaurant( body, callBack ){ 
     console.log( "mongoGetRestaurant, body: " + JSON.stringify( body ));
     if( body !== undefined){
@@ -143,19 +143,20 @@ function mongoGetRestaurant( body, callBack ){
         var len;
         var randomNum;
         console.log(food_category, price, meal_time);
+        /* IF - all selectors have input it in them from places.html */
         if (body.food_category !== "0" && body.price !== "0" && body.meal_time !== "0"){
+            /* Find - based on all 3 categories */
             Restaurant.find({"food_category": body.food_category, "price": body.price, "meal_time": body.meal_time}, function (err, result) {
             console.log( "result of find: " + JSON.stringify(result)); //result is a list of objects
             if (err !== null) { //An error has occured
                console.log("ERROR: " + err);
                callBack({"message": "no match"});
                return;
-               //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
             } else {
               console.log("A");
               len = result.length;
               console.log("length of result is: " + JSON.stringify( len ));
-              // if no match check for just two. and so on
+              /* IF - no match was returned, check for less matches */
               if (len === 0){ // no match for all 3 entries
                 console.log("NO MATCH. Check for less.");
                 //check 2 entries
@@ -165,24 +166,24 @@ function mongoGetRestaurant( body, callBack ){
                      console.log("ERROR: " + err);
                      callBack({"message": "no match"});
                      return;
-                     //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
                   } else {
                     console.log("AA");
                     len = result.length;
                     console.log("length of result is: " + JSON.stringify( len ));
-                    if( len === 0 ){ // check 1 entry
+                    if( len === 0 ){ 
+                    // check 1 entry
                         Restaurant.find({"food_category": body.food_category}, function (err, result) {
                             console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
                             if (err !== null) { //An error has occured
                                console.log("ERROR: " + err);
                                callBack({"message": "no match"});
                                return;
-                               //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
                             } else {
                               console.log("E");
                               len = result.length;
                               console.log("length of result is: " + JSON.stringify( len ));
-                              if( len === 0 ){  //check a differnt 1 entry category
+                              if( len === 0 ){  
+                              //check a differnt 1 entry category
                                 Restaurant.find({"price": body.price}, function (err, result) {
                                     console.log( "result of find: " + JSON.stringify(result)); //result is a list of objects
                                     if (err !== null) { //An error has occured
@@ -193,14 +194,14 @@ function mongoGetRestaurant( body, callBack ){
                                       console.log("B");
                                       len = result.length;
                                       console.log("length of result is: " + JSON.stringify( len ));
-                                      if( len === 0){ //check the last category
+                                      if( len === 0){ 
+                                      //check the last category
                                           Restaurant.find({"meal_time": body.meal_time}, function (err, result) {
                                           console.log( "result of find: " + JSON.stringify(result)); //result is a list of objects
                                           if (err !== null) { //An error has occured
                                              console.log("ERROR: " + err);
                                              callBack({"message": "no match"});
                                              return;
-                                             //callBack({"food_category": null, "meal_time": null, "goal_meal": null, "price": null});
                                           } else {
                                             console.log("B");
                                             len = result.length;
@@ -243,7 +244,7 @@ function mongoGetRestaurant( body, callBack ){
                   return;
               }
             }
-          });
+          }); /* ELSE IF - if 1 entry was not given input */
         } else if(body.food_category !== "0" && body.price !== "0"){
           Restaurant.find({"food_category": body.food_category, "price": body.price}, function (err, result) {
             console.log( "result of find: " + JSON.stringify(result)); //result is a list of objects
@@ -260,7 +261,7 @@ function mongoGetRestaurant( body, callBack ){
               callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
               return;
             }
-          });
+          });  /* ELSE IF - if 1 entry was not given input */
         } else if(body.food_category !== "0" && body.meal_time !== "0"){
             Restaurant.find({"food_category": body.food_category, "meal_time": body.meal_time}, function (err, result) {
               console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
@@ -276,7 +277,7 @@ function mongoGetRestaurant( body, callBack ){
                 callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
                 return;
               }
-            });
+            });  /* ELSE IF - if 1 entry was not given input */
         } else if(body.price !== "0" && body.meal_time !=="0"){
            Restaurant.find({"price": body.price, "meal_time": body.meal_time}, function (err, result) {
               console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
@@ -293,7 +294,7 @@ function mongoGetRestaurant( body, callBack ){
                 callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                 return;
               }
-            });
+            });  /* ELSE IF - if 2 entries was not given input */
          } else if(body.food_category !== "0"){
             Restaurant.find({"food_category": body.food_category}, function (err, result) {
                 console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
@@ -310,7 +311,7 @@ function mongoGetRestaurant( body, callBack ){
                   callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                   return;
                 }
-            });
+            }); /* ELSE IF - if 2 entries was not given input */
          } else if(body.price !== "0"){
             Restaurant.find({"price": body.price}, function (err, result) {
                   console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
@@ -327,7 +328,7 @@ function mongoGetRestaurant( body, callBack ){
                     callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
                     return;
                   }
-              });
+              }); /* ELSE IF - if 2 entries was not given input */
          } else if(body.meal_time !=="0"){
             Restaurant.find({"meal_time": body.meal_time}, function (err, result) {
                   console.log( "result of find: " + JSON.stringify( result )); //result is a list of objects
@@ -345,14 +346,14 @@ function mongoGetRestaurant( body, callBack ){
                     return;
                   }
               });
-         } else {
+         } else { /* NO ENTRIES WERE GIVEN INPUT */
           console.log("ERROR with finding.");
           callBack({"message": "no input"});
           return;
          }
  
     } else {
-      console.log("Error.");
+      console.log("Error."); //this should never reach
     }
 }
 

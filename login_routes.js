@@ -3,6 +3,8 @@
 * CIS 399: Final Project
 */
 var login = require("./login.js");
+// var mongoose = require("mongoose"),
+//   mongoUrl;
 
 var cookie_options = {};
 
