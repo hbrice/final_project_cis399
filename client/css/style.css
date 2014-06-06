@@ -25,12 +25,16 @@ body section {
 	padding: 10px;
 }
 
+.content {
+	border: white solid 3px;
+}
+
 button {
 	background-color: #1e6300;
 	border:2px solid #42393a;
 	border-radius:25px;
-	width: 75px;
-	height: 30px;
+	width: 100px;
+	height: 40px;
 	color: white;
 }
 
@@ -41,6 +45,16 @@ button.places {
 	width: 100px;
 	height: 40px;
 	color: white;
+}
+
+.logout {
+	color: white;
+	float: right;
+}
+
+a:link {
+	color:white;
+	text-decoration: none;
 }
 
 .sign {
