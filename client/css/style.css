@@ -29,8 +29,8 @@ button {
 	background-color: #1e6300;
 	border:2px solid #42393a;
 	border-radius:25px;
-	width: 75px;
-	height: 30px;
+	width: 85px;
+	height: 35px;
 	color: white;
 }
 
@@ -47,7 +47,13 @@ button.places {
 	width:600px;
 }
 
-.bottom {
-	border: 3px solid white;
+.logout {
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+	float: right;
+}
 
+.bottom {
+	border: white solid 3px;
 }
