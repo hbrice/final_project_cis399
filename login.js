@@ -92,6 +92,7 @@ function mongoCheckExistence( login, callBack ){
     User.findOne({"name": name}, function (err, result) {
         console.log( "existence result: " + JSON.stringify( result ));
         //find out why andy is returning null
+
         if (err !== null) {
            console.log("ERROR: " + err);
            callBack({"err": err});
@@ -100,16 +101,16 @@ function mongoCheckExistence( login, callBack ){
         if( result ){
           console.log("RESULT.PASSWORD: " + result.password);
           console.log("PASS: " + pass);
-          //console.log("RESULT IS: " + result);
-           if( result.password === pass )
-              callBack({"name": true, "password": true});  //both matched
-           else
-              callBack({"name": true, "password": false}); //only name matched
+
+          bcrypt.compare(pass, result.password, function(err, isMatch) {
+            if (err) return callBack(err);
+            callBack({"name": true, "password": isMatch});
+          });
 
         } else {
           //could optionally check for password match here - useful info?
           callBack({"name": false, "password": null});     //name did not match
-        }
+        } 
     });
 }
 
@@ -137,32 +138,24 @@ function mongoRegister( login, callBack ){
             return;
           }
           else {
-          //hash password with salt
+            //hash password with salt
             bcrypt.hash(login.password, salt, null, function(err, hash) {
-              console.log("encrypted password: " + hash);
+              //console.log("encrypted password: " + hash);
               if (err) {
                 callBack({"err": err});
                 return;
               } 
               login.password = hash;
 
-
-             var user = new User( {"name": login.name, password: login.password,
+              var user = new User( {"name": login.name, password: login.password,
                                     "history": [], "compromised": [] });
-             user.save(function (err, doc){ 
-               console.log( "register result: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));
+              user.save(function (err, doc){ 
+              console.log( "register result: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));
              });
              callBack({"saved": true});
             });
           }
         });
-
-        // var user = new User( {"name": login.name, password: login.password,
-         //                       "history": [], "compromised": [] });
-         //user.save(function (err, doc){ 
-         //  console.log( "register result: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));
-         //});
-         //callBack({"saved": true});
     }
  });
 }
