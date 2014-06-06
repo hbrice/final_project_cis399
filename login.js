@@ -2,6 +2,8 @@
 * Holly Brice & Heidi Niu
 * CIS 399: Final Project
 */
+
+
 console.log("******************************** NEW SESSION *********");
 var mongoose = require("mongoose"),
     mongoUrl;
@@ -50,7 +52,6 @@ var UserSchema = mongoose.Schema({
 
 var User = mongoose.model("User", UserSchema);
 console.log("login.js - user created.");
-
 
 //need something in db for it to be defined
 /* User login info */
@@ -123,7 +124,8 @@ function mongoRegister( login, callBack ){
          return;
     }
     if( result.name ){
-         callBack({"saved": false});  //exists so was not saved
+      alert("Username already exists!");
+        callBack({"saved": false});  //exists so was not saved
     } 
     else {
         console.log("making new user. name: "+ JSON.stringify( login ));
@@ -140,14 +142,14 @@ function mongoRegister( login, callBack ){
           else {
             //hash password with salt
             bcrypt.hash(login.password, salt, null, function(err, hash) {
-              //console.log("encrypted password: " + hash);
-              if (err) {
+                if (err) {
                 callBack({"err": err});
                 return;
               } 
               login.password = hash;
 
-              var user = new User( {"name": login.name, password: login.password,
+              var user = new User( {"name": login.name, "password": login.password, "sec_question": 
+                                    login.question, "sec_answer": login.answer,
                                     "history": [], "compromised": [] });
               user.save(function (err, doc){ 
               console.log( "register result: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));

@@ -39,7 +39,7 @@ function registerHandler(req, res){
         res.cookie('name', the_body.name, cookie_options);
         res.json({"url": "./places.html", "name": the_body.name});
     };
-});
+  });
 }
 
 

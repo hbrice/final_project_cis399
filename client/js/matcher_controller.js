@@ -52,7 +52,8 @@ var index_main = function (){
   $("button#loginButton").on("click", function (event){ 
         console.log("matcher_controller - login button clicked");
         $.get("login.json",
-               {"name": $("#old_name").val(), "password": $("#old_pass").val() },
+               {"name": $("#old_name").val(), "password": $("#old_pass").val(),
+               "question": $("#security_question").val(), "answer": $("security_answer".val()) },
                handleLoginResult);
    });
 
