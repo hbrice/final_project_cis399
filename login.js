@@ -124,7 +124,6 @@ function mongoRegister( login, callBack ){
          return;
     }
     if( result.name ){
-      alert("Username already exists!");
         callBack({"saved": false});  //exists so was not saved
     } 
     else {

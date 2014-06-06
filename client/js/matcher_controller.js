@@ -52,16 +52,18 @@ var index_main = function (){
   $("button#loginButton").on("click", function (event){ 
         console.log("matcher_controller - login button clicked");
         $.get("login.json",
-               {"name": $("#old_name").val(), "password": $("#old_pass").val(),
-               "question": $("#security_question").val(), "answer": $("security_answer".val()) },
+               {"name": $("#old_name").val(), "password": $("#old_pass").val() },
                handleLoginResult);
    });
 
     /* Register new user Button */
    $("button#registerButton").on("click", function (event){ 
     console.log("matcher_controller - register button clicked");
+    console.log("SECURITY QUESTION: " + $("#security_question").val());
+    console.log("SECURITY ANSWER: " + $("#security_answer").val());
         $.post("register.json",
-               {"name": $("#new_name").val(), "password": $("#new_pass").val() },
+               {"name": $("#new_name").val(), "password": $("#new_pass").val(),
+               "question": $("#security_question").val(), "answer": $("security_answer").val() },
                handleRegisterResult);
    });
 
