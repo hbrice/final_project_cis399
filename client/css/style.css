@@ -25,6 +25,10 @@ body section {
 	padding: 10px;
 }
 
+.content {
+	border: white solid 3px;
+}
+
 button {
 	background-color: #1e6300;
 	border:2px solid #42393a;
