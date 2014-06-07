@@ -28,8 +28,9 @@ function handlePasswordResult(resp_body) { //FILL IN*******
     console.log("resp_body: " + JSON.stringify (resp_body));
     //$("#feedback").text( JSON.stringify( resp_body) )
     //sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
-    //if( resp_body.url ) window.location = resp_body.url;
-};
+    //if( resp_body.url ) window.location = resp_body.url
+//new comment
+  };
 
 /* handles Retrieve Recommendation */
 function handleRetrieveResult(resp_body) {
