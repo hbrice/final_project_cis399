@@ -15,7 +15,6 @@ CIS 399: Final Project
       <script type="./js/restaurants.js"></script>
       <script src="./js/matcher_controller.js"></script>
 
-
       <script>
         $(document).ready(index_main);
       </script>
@@ -29,14 +28,12 @@ CIS 399: Final Project
 
     <h1>User Login Page</h1>
 
-    <div class="content">
+<div class="bottom">
      <section id="register">
-        <p>New user? Create a username, password and security question, then click Register.</p>
-        <p>Already have an account? Type in your username and password and click Login.</p>
-        <span class="directions">Username: </span>
+        <span class="directions">Choose login name: </span>
         <input id="new_name" type="text">
         <p>
-        <span class="directions">Password: </span>
+        <span class="directions">Choose login password: </span>
         <input id="new_pass" type="text">
         </p>
         <p>
@@ -53,10 +50,7 @@ CIS 399: Final Project
           <input id="security_answer" type="text">
         </p>
         <button id="registerButton">Register</button>
-      </section>
-       <section id="password">
-        <button id="passwordButton">Forgot your password?</button>
-      </section>
+    </section>
 
     <section id="login">
         <span class="directions">Login if have name: </span>
@@ -68,10 +62,11 @@ CIS 399: Final Project
         <button id="loginButton">Log In</button>
     </section>
 
-   
+    <section id="password">
+        <button id="passwordButton">Forgot your password?</button>
     
     <section id="result">
-        <span id="feedback">MAKE ME AN ALERT</span>
+        <h2>Feedback: <span id="feedback"></span></h2>
     </section>
   </div>
 

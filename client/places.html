@@ -12,23 +12,25 @@ CIS 399: Final Project
 
       <script src="http://code.jquery.com/jquery-latest.min.js"></script>
       <script src="./js/models.js"></script>
-      <script src="./js/restaurants.js"></script>
+      <script type="./js/restaurants.js"></script>
       <script src="./js/matcher_controller.js"></script>
       <script src="./js/browser.js"></script>
-
       <script>
         $(document).ready(index_main);
       </script>
   </head>
 
   <body>
-    <a href="index.html" class="logout" onClick="cl();">Logout</a>
+
+    <a href="index.html" class="logout">Logout</a>
 
     <div class="logo">
       <img src="./images/sign2.png" class="sign">
     </div>
-    <h1>Profile Saver</h1>
 
+    <h1>Meal Selection</h1>
+
+<div class="bottom">
      <section id="profile">
       <tr><td></td><td></td></tr>
         <span class="directions">What kind of food are you looking for? </span>
@@ -65,13 +67,16 @@ CIS 399: Final Project
         <br>
 
         <p>
-        <button id="save">Save user profile</button>   
+        <button id="save">Save Food Choices</button>
+        
+        <p>
         <button id="recommendation">I'm Feeling Hungry!</button>
     </section>
 
     <section id="result">
-        <h2>You should eat at: <span id="feedback"></span></h2>
+        <h2>Feedback: <span id="feedback"></span></h2>
     </section>
+</div>
 
   </body>
 </html>
