@@ -44,8 +44,8 @@ console.log("login.js - creating userSchema");
 var UserSchema = mongoose.Schema({ 
     name: {type: String, unique : true }, //see save below
     password: String,
-    sec_question: String,
-    sec_answer: String,
+    question: String, //security question
+    answer: String, //answer to security question
     history: [String],
     compromised: [String]
 });
@@ -147,11 +147,12 @@ function mongoRegister( login, callBack ){
               } 
               login.password = hash;
 
-              var user = new User( {"name": login.name, "password": login.password, "sec_question": 
-                                    login.question, "sec_answer": login.answer,
-                                    "history": [], "compromised": [] });
+              var user = new User( {"name": login.name, "password": login.password, "question": 
+                                    login.question, "answer": login.answer, "history": [], "compromised": [] });
+              console.log("USER'S SEC QUESTIONS: " + login.question);
+              console.log("USER's SEC ANSWER: " + login.answer);
               user.save(function (err, doc){ 
-              console.log( "register result: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));
+              console.log( "register result **: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));
              });
              callBack({"saved": true});
             });

@@ -29,7 +29,6 @@ function handlePasswordResult(resp_body) { //FILL IN*******
     //$("#feedback").text( JSON.stringify( resp_body) )
     //sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
     //if( resp_body.url ) window.location = resp_body.url
-//new comment
   };
 
 /* handles Retrieve Recommendation */
@@ -82,17 +81,15 @@ var index_main = function (){
       console.log("matcher_controller - Save - button clicked.");
       var meal_time = $("select#mealtime").val();
       var food_category = $("select#food_category").val();
-      var price = $("select#price").val();
-      var goal_meal = $("input#goal_meal").val();
+      var price = $("select#price").val();s
       var name = sessionStorage.getItem('name'); 
-      console.log("matcher_controller - ^^^^^ " + meal_time, food_category, price, goal_meal, name);
+      console.log("matcher_controller - ^^^^^ " + meal_time, food_category, price, name);
       // it is getting the correct info
       var updatedUser = {
           "name": name,
           "meal_time": meal_time, 
           "food_category": food_category, 
           "price": price, 
-          "goal_meal": goal_meal
       };
        
        //send it to server
@@ -112,7 +109,7 @@ var index_main = function (){
       }); 
 
       //update model
-      UserModel.setAll( {"name": name, "meal_time": meal_time, "food_category": food_category, "price": price, "goal_meal": goal_meal});
+      UserModel.setAll( {"name": name, "meal_time": meal_time, "food_category": food_category, "price": price});
      
      }); //end of save button
 
@@ -128,13 +125,11 @@ var index_main = function (){
       console.log("$$$$$$meal_time: " + meal_time);
       var food_category = data.food_category;
       var price = data.price;
-      var goal_meal = data.goal_meal;
       var name = sessionStorage.getItem('name'); 
       var sending = { //data is sent to resturants.js -> mongoGetRestaurant
         "meal_time": meal_time, 
         "food_category": food_category, 
         "price": price,
-        "goal_meal": goal_meal
       }
 
       console.log("SENDING TO RETRIEVEREST.");
