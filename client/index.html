@@ -29,15 +29,19 @@ CIS 399: Final Project
     <h1>User Login Page</h1>
 
 <div class="bottom">
+  <table>
+    <tr>
+      <td style="border-right: solid 5px white; ">
      <section id="register">
-        <span class="directions">Choose login name: </span>
+        <p class="title">New User? Register Now!</p>
+        <span class="directions">Create username: </span>
         <input id="new_name" type="text">
         <p>
-        <span class="directions">Choose login password: </span>
+        <span class="directions">Create password: </span>
         <input id="new_pass" type="text">
         </p>
         <p>
-          <span class="directions">Choose security question: </span>
+          <span class="examples">Choose security question: </span>
           <select id="security_question" style="margin-left: 20px; width: 210px">
             <option value="0"> ----- </option>
             <option value="Q1">What is the last name of your third grade teacher?</option>
@@ -46,17 +50,20 @@ CIS 399: Final Project
           </select>
         </p>
         <p>
-          <span class="directions">Choose answer to security question: </span>
+          <span class="examples">Create answer to security question: </span>
           <input id="security_answer" type="text">
         </p>
         <button id="registerButton">Register</button>
     </section>
-
-    <section id="login">
-        <span class="directions">Login if have name: </span>
+  </td>
+  
+  <td>
+     <section id="login">
+      <p class="title">Already registered? Sign in here!</p>
+        <span class="directions">Username: </span>
         <input id="old_name" type="text">
         <p>
-        <span class="directions">and password: </span>
+        <span class="directions">Password: </span>
         <input id="old_pass" type="text">
         <p>
         <button id="loginButton">Log In</button>
@@ -64,11 +71,14 @@ CIS 399: Final Project
 
     <section id="password">
         <button id="passwordButton">Forgot your password?</button>
-    
+    </section>
+    <!--
     <section id="result">
         <h2>Feedback: <span id="feedback"></span></h2>
-    </section>
-  </div>
+    </section> -->
+  </td>
+</table>
+</div>
 
   </body>
 </html>
