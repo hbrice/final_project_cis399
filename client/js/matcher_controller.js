@@ -151,7 +151,7 @@ var index_main = function (){
       console.log("matcher_controller - Save - button clicked.");
       var meal_time = $("select#mealtime").val();
       var food_category = $("select#food_category").val();
-      var price = $("select#price").val();s
+      var price = $("select#price").val();
       var name = sessionStorage.getItem('name'); 
       console.log("matcher_controller - ^^^^^ " + meal_time, food_category, price, name);
       // it is getting the correct info

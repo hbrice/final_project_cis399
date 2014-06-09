@@ -206,7 +206,7 @@ function mongoGetRestaurant( body, callBack ){
                                             console.log("B");
                                             len = result.length;
                                             if(len === 0){
-                                              alert("GAH");
+                                              console.log("We have a problem... no matches found.");
                                               return;
                                             }
                                             console.log("length of result is: " + JSON.stringify( len ));
