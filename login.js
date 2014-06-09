@@ -212,9 +212,30 @@ function mongoPassword(login, callBack) {
   });
 }
 
+function mongoUsername(login, callBack) {
+  console.log("Entered login.js - mongoUsername");
+
+  var name = login.name;
+  console.log("NAME: " + name);
+
+  User.findOne({"name": name}, function (err, result) {
+    console.log( "mongoUsername result: " + JSON.stringify( result ));
+
+    if (err !== null) {
+       console.log("ERROR: " + err);
+       callBack({"err": err});
+       return;
+    }
+    if( result ) {
+      callBack(result);
+    } 
+  });
+}
+
 module.exports = {
   "handleRegistration": mongoRegister,
   "handleLogin": mongoLogin,
   "checkExistence": mongoCheckExistence,
-  "handlePassword": mongoPassword
+  "handlePassword": mongoPassword,
+  "handleUsername": mongoUsername
 };

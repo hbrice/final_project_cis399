@@ -60,9 +60,26 @@ function passwordHandler(req, res) {
   });
 }
 
+function usernameHandler(req, res) {
+  console.log("Entered login_routes.js - usernameHandler");
+  var the_body = req.query;
+  console.log("username the_body: " + JSON.stringify(the_body));
+  login.handleUsername(the_body, function(janswer){
+    console.log("username handler result: " + JSON.stringify(janswer));
+    //f (janswer.question !== true) {
+      res.json(janswer);
+    //}
+    //else {
+      //res.cookie("name", the_body.name, cookie_options);
+      //res.json({"url": "./password.html", "name": the_body.name});
+    //}
+  });
+}
+
 
 module.exports = {
   "loginHandler": loginHandler,
   "registerHandler": registerHandler,
-  "passwordHandler": passwordHandler
+  "passwordHandler": passwordHandler,
+  "usernameHandler": usernameHandler
 };

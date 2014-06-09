@@ -29,7 +29,21 @@ function handlePasswordResult(resp_body) {
     $("#feedback").text( "IN HANDLE PASSWORD RESULT " + JSON.stringify( resp_body) )
     sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
     if( resp_body.url ) window.location = resp_body.url;
-  }; 
+}; 
+
+function handleUsernameResult(resp_body) {
+     console.log("RIGHT BEFORE  FIRST QUESTION LINE");
+     console.log("resp_body: " + JSON.stringify (resp_body));
+    if (resp_body.question === "Q1") {
+      $("#security_question").text( "What is the last name of your third grade teacher?" );
+    }
+    else if (resp_body.question === "Q2") {
+      $("#security_question").text( "What was the make and model of your first car?" );
+    }
+    else { //Q3
+      $("#security_question").text( "What is your mom's middle name?" );
+    }
+}
 
 /* handles Retrieve Recommendation */
 function handleRetrieveResult(resp_body) {
@@ -141,5 +155,15 @@ var index_main = function (){
 
   }); //end of recommend button
 
+
+  $("button#usernameButton").on("click", function( event ){ //on password.html
+    console.log("submit username button clicked.");
+
+     $.get("username.json",
+          {"name": $("#username").val()},
+          handleUsernameResult);
+    //$("#feedback").empty();
+
+  }); 
 
 } //end of main
