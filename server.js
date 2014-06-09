@@ -26,6 +26,9 @@ console.log("Express is listening on port " + port);
 console.log("server.js - app.get /login.json.");
 app.get("/login.json", login_handlers.loginHandler);
 
+console.log("server.js - app.get /password.json.");
+app.get("/password.json", login_handlers.passwordHandler);
+
 console.log("server.js - app.post /register.json.");
 app.post("/register.json", login_handlers.registerHandler);
 

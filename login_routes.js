@@ -13,6 +13,7 @@ var cookie_options = {};
 //expect body to be {name: String, password: String}
 //provides callBack with either {url: url} or {name: Bool, password: Bool}
 function loginHandler(req, res){
+    console.log("Entered login_routes.js - loginHandler");
     var the_body = req.query;
     console.log ( "login request: " + JSON.stringify(the_body) );
     login.handleLogin( the_body, function ( janswer ){
@@ -29,6 +30,7 @@ function loginHandler(req, res){
 //expect body to be {name: String, password: String}
 //provides callBack with either {saved: Bool} or {name: Bool, password: Bool}
 function registerHandler(req, res){
+  console.log("Entered login_routes.js - registerHandler");
   var the_body = req.body;
   console.log ( "registration request: " + JSON.stringify( the_body ));
   login.handleRegistration( the_body , function ( janswer ){
@@ -42,8 +44,25 @@ function registerHandler(req, res){
   });
 }
 
+function passwordHandler(req, res) {
+  console.log("Entered login_routes.js - passwordHandler");
+  var the_body = req.query;
+  console.log("forgot password request: " + JSON.stringify(the_body));
+  login.handlePassword(the_body, function(janswer){
+    console.log("forgot password result: " + JSON.stringify(janswer));
+    //if (janswer.question !== true) {
+      //res.json(janswer);
+    //}
+    //else {
+      res.cookie("name", the_body.name, cookie_options);
+      res.json({"url": "./password.html", "name": the_body.name});
+    //}
+  });
+}
+
 
 module.exports = {
   "loginHandler": loginHandler,
   "registerHandler": registerHandler,
+  "passwordHandler": passwordHandler
 };

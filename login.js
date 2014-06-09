@@ -118,6 +118,7 @@ function mongoCheckExistence( login, callBack ){
 /* expects login to be of form {name: String, password: String}
 * provides callBack with arg: {"saved": bool} or {err: error} */
 function mongoRegister( login, callBack ){
+  console.log("Entered login.js - mongoRegister");
   mongoCheckExistence( login, function( result ){
     if( result.err ){
          callBack({"err": result.err});  //just pass it back to callee
@@ -165,6 +166,7 @@ function mongoRegister( login, callBack ){
 /* expects login to be of form {name: String, password: String}
 * provides callBack with arg: {"name": bool, "password": bool} or {err: error} */
 function mongoLogin( login, callBack ){
+  console.log("Entered login.js - mongoLogin");
   mongoCheckExistence( login, function( result ){
     if( result.err )
          callBack({"err": result.err});  //just pass it back to callee
@@ -173,8 +175,46 @@ function mongoLogin( login, callBack ){
    });
 }
 
+function mongoPassword(login, callBack) {
+  console.log("Entered login.js - mongoPassword");
+
+  var name = login.name;
+  console.log("NAME: " + name);
+
+  User.findOne({"name": name}, function (err, result) {
+    console.log( "mongoPassword result: " + JSON.stringify( result ));
+
+    if (err !== null) {
+       console.log("ERROR: " + err);
+       callBack({"err": err});
+       return;
+    }
+    if( result ){
+      console.log("RESULT.QUESTION: " + result.question);
+      console.log("RESULT.ANSWER: " + result.answer);
+ 
+      if (result.question === "Q1") {
+        console.log("ASK 1st Q");
+        //$("#question").text( "ASK FIRST QUESTION" );
+      }
+      else if (result.question === "Q2") {
+        //$("#question").text( "ASK SECOND QUESTION" );
+      }
+      else { //Q3
+        //$("#question").text( "ASK 3rd QUESTION" );
+      } 
+      callBack(result);
+
+    } //else {
+      //could optionally check for password match here - useful info?
+      //callBack({"name": false, "password": null});     //name did not match
+    //} 
+  });
+}
+
 module.exports = {
   "handleRegistration": mongoRegister,
   "handleLogin": mongoLogin,
-  "checkExistence": mongoCheckExistence
+  "checkExistence": mongoCheckExistence,
+  "handlePassword": mongoPassword
 };

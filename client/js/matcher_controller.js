@@ -23,13 +23,13 @@ function handleRegisterResult(resp_body) {
 };
 
 /* handles Forgot your password result */
-function handlePasswordResult(resp_body) { //FILL IN*******
+function handlePasswordResult(resp_body) { 
     console.log("Entered handlePasswordResult.");
     console.log("resp_body: " + JSON.stringify (resp_body));
-    //$("#feedback").text( JSON.stringify( resp_body) )
-    //sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
-    //if( resp_body.url ) window.location = resp_body.url
-  };
+    $("#feedback").text( "IN HANDLE PASSWORD RESULT " + JSON.stringify( resp_body) )
+    sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
+    if( resp_body.url ) window.location = resp_body.url;
+  }; 
 
 /* handles Retrieve Recommendation */
 function handleRetrieveResult(resp_body) {
@@ -59,11 +59,15 @@ var index_main = function (){
     /* Register new user Button */
    $("button#registerButton").on("click", function (event){ 
     console.log("matcher_controller - register button clicked");
-    console.log("SECURITY QUESTION: " + $("#security_question").val());
-    console.log("SECURITY ANSWER: " + $("#security_answer").val());
+   
+    var answer = $("#security_answer").val();
+    var question = $("#security_question").val()
+    console.log("SECURITY QUESTION: " + question);
+    console.log("SECURITY ANSWER: " + answer);
+
         $.post("register.json",
                {"name": $("#new_name").val(), "password": $("#new_pass").val(),
-               "question": $("#security_question").val(), "answer": $("security_answer").val() },
+               "question": question, "answer": answer },
                handleRegisterResult);
    });
 
