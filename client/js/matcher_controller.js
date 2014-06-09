@@ -104,10 +104,12 @@ function handleRetrieveResult(resp_body) {
     var the_body = resp_body;
     var msg = resp_body.message;
     var restaurant_name = resp_body.restaurant_name;
+    var url = resp_body.url;
+
     if( msg === "no input"){
       $("#feedback").text("You forgot to enter input and save!");
     }else{
-      $("#feedback").text("May we recommend... " + restaurant_name);
+      $("#feedback").html("May we recommend... " + restaurant_name + ". You can view it at <a href='" + url + "' target='_blank'>Click Here</a>");
     }
 };
 

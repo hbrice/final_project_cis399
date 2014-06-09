@@ -42,7 +42,8 @@ var profile_schema = mongoose.Schema({
     name: String, //ie. Bob
     meal_time: String, //ie. breakfast
     food_category: String, //ie. Thai
-    price: String //ie. $8-$15
+    price: String, //ie. $8-$15
+    url: String
    // goal_meal: String //ie. fried rice
   });
 
@@ -55,8 +56,8 @@ var RestaurantSchema = mongoose.Schema({
   restaurant_name: {'unique': true, type: String},
   meal_time: [String],
   food_category: [String], 
-  price: String
- // goal_meal: [String]
+  price: String,
+  url: [String]
 });
 
 var RestaurantModel = {
@@ -64,10 +65,10 @@ var RestaurantModel = {
   meal_time: null,
   food_category: null,
   price: null,
- // goal_meal: null,
-  getAll: function(restaurant_name, meal_time, food_category, price ){
+  url: null,
+  getAll: function(restaurant_name, meal_time, food_category, price, url ){
     //trying to match all Restaurants that match any of these statemnts
-    Restaurant.find({ $or: [ { meal_time: meal_time}, {food_category: food_category}, {price: price} ]}, function(err, result){
+    Restaurant.find({ $or: [ { meal_time: meal_time}, {food_category: food_category}, {price: price}, {url: url} ]}, function(err, result){
       console.log("restaurant.js - RESULT: " + JSON.stringify( result ));
     });
   }
@@ -77,33 +78,33 @@ var Restaurant = mongoose.model("Restaurant", RestaurantSchema);
 
 /* Restaurant entry for DB */
 var all_restaurants = [
-  {"restaurant_name": "Caspian", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["mediterranean", "american"], "price": "min"},
-  {"restaurant_name": "Rennies_Landing", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["pubfood", "american"], "price": "min"},
-  {"restaurant_name": "Qdoba", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["mexican"], "price": "min"},
-  {"restaurant_name": "East Meets West", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min"},
-  {"restaurant_name": "Glenwood", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["american", "asian"], "price": "med"},
-  {"restaurant_name": "Webfoot Bar and Grill", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["american", "pubfood"], "price": "med"},
-  {"restaurant_name": "Alder Street Fish Co", "meal_time": ["lunch", "dinner"], "food_category": ["american"], "price": "med"},
-  {"restaurant_name": "Sweet Basil Express", "meal_time": ["lunch", "dinner"], "food_category": ["thai"], "price": "min"},
-  {"restaurant_name": "DairyQueen", "meal_time": ["lunch", "dinner", "dessert"], "food_category": ["american"], "price": "min"},
-  {"restaurant_name": "DoughCo", "meal_time": ["lunch", "dinner"], "food_category": ["italian"], "price": "min"},
-  {"restaurant_name": "Pegasus Pizza", "meal_time": ["lunch", "dinner"], "food_category": ["italian"], "price": "med"},
-  {"restaurant_name": "Porcellino Bistro", "meal_time": ["lunch", "dinner"], "food_category": ["italian", "american"], "price": "med"},
-  {"restaurant_name": "Sys Pizza", "meal_time": ["lunch", "dinner"], "food_category": ["italian"], "price": "min"},
-  {"restaurant_name": "Taylors Bar and Grill", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["pubfood", "american"], "price": "min"},
-  {"restaurant_name": "Evergreen Indian Restaurant", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "med"},
-  {"restaurant_name": "Cafe Siena", "meal_time": ["breakfast", "lunch"], "food_category": ["american", "mexican"], "price": "min"},
-  {"restaurant_name": "Wild Duck Cafe", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["american", "italian"], "price": "med"},
-  {"restaurant_name": "Track Town Pizza", "meal_time": ["lunch", "dinner"], "food_category": ["italian"], "price": "max"},
-  {"restaurant_name": "Excelsior Inn and Risorante Italiano", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["italian"], "price": "max"},
-  {"restaurant_name": "Noodle Head", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min"},
-  {"restaurant_name": "Cafe Seoul", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min"},
-  {"restaurant_name": "Maple Garden", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min"},
-  {"restaurant_name": "Teriyaki Boy", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min"},
-  {"restaurant_name": "Barrys Espresso", "meal_time": ["breakfast", "lunch", "dessert"], "food_category": ["american"], "price": "min"},
-  {"restaurant_name": "Yogurt Extreme", "meal_time": ["dessert"], "food_category": ["american"], "price": "min"},
-  {"restaurant_name": "Milky Way", "meal_time": ["breakfast", "lunch"], "food_category": ["american", "asian"], "price": "min"},
-  {"restaurant_name": "Peachwave", "meal_time": ["dessert", "lunch", "dinner"], "food_category": ["american, asian"], "price": "min"}
+  {"restaurant_name": "Caspian", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["mediterranean", "american"], "price": "min", "url": "https://www.facebook.com/pages/Caspian-Mediterranean-Restaurant/111705075531826"},
+  {"restaurant_name": "Rennies Landing", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["pubfood", "american"], "price": "min", "url": "https://www.facebook.com/rennies.landing"},
+  {"restaurant_name": "Qdoba", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["mexican"], "price": "min", "url": "http://www.qdobaoregon.com/content/qdoba-eugene"},
+  {"restaurant_name": "East Meets West", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min", "url": "https://www.facebook.com/pages/East-Meets-West-Chinese/132321093581938?rf=167969593267462"},
+  {"restaurant_name": "Glenwood", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["american", "asian"], "price": "med", "url": "https://www.facebook.com/pages/Glenwood-Restaurants/19201926194"},
+  {"restaurant_name": "Webfoot Bar and Grill", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["american", "pubfood"], "price": "med", "url": "https://www.facebook.com/TheWebfootBar"},
+  {"restaurant_name": "Alder Street Fish Co", "meal_time": ["lunch", "dinner"], "food_category": ["american"], "price": "med", "url": "https://www.facebook.com/AlderStreetFishCo"},
+  {"restaurant_name": "Sweet Basil Express", "meal_time": ["lunch", "dinner"], "food_category": ["thai"], "price": "min", "url": "http://sweetbasilexpress.com/"},
+  {"restaurant_name": "DairyQueen", "meal_time": ["lunch", "dinner", "dessert"], "food_category": ["american"], "price": "min", "url": "http://www.dairyqueen.com/us-en/Locator/Detail/5237"},
+  {"restaurant_name": "DoughCo", "meal_time": ["lunch", "dinner"], "food_category": ["italian"], "price": "min",  "url" : "http://www.doughco.com/"},
+  {"restaurant_name": "Pegasus Pizza", "meal_time": ["lunch", "dinner"], "food_category": ["italian"], "price": "med", "url": "http://www.pegasuspizza.net/"},
+  {"restaurant_name": "Porcellino Bistro", "meal_time": ["lunch", "dinner"], "food_category": ["italian", "american"], "price": "med", "url": "http://porcellinobistroeugene.com/"},
+  {"restaurant_name": "Sys Pizza", "meal_time": ["lunch", "dinner"], "food_category": ["italian"], "price": "min", "url": "http://www.sysnewyorkpizza.com/"},
+  {"restaurant_name": "Taylors Bar and Grill", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["pubfood", "american"], "price": "min", "url": "https://www.facebook.com/taylorsducks?rf=203017669712388"},
+  {"restaurant_name": "Evergreen Indian Restaurant", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "med", "url": "http://www.evergreenindianrestaurant.com/"},
+  {"restaurant_name": "Cafe Siena", "meal_time": ["breakfast", "lunch"], "food_category": ["american", "mexican"], "price": "min", "url": "https://www.facebook.com/pages/Cafe-Siena/115325685153016"},
+  {"restaurant_name": "Wild Duck Cafe", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["american", "italian"], "price": "med", "url": "http://www.wildduckcafe.net/"},
+  {"restaurant_name": "Track Town Pizza", "meal_time": ["lunch", "dinner"], "food_category": ["italian"], "price": "max", "url": "http://www.tracktownoncampus.com/"},
+  {"restaurant_name": "Excelsior Inn and Risorante Italiano", "meal_time": ["breakfast", "lunch", "dinner"], "food_category": ["italian"], "price": "max", "url": "http://excelsiorinn.com/"},
+  {"restaurant_name": "Noodle Head", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min", "url": "http://noodleheadeugene.com/"},
+  {"restaurant_name": "Cafe Seoul", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min", "url": "https://local.yahoo.com/info-22016772-cafe-seoul-eugene"},
+  {"restaurant_name": "Maple Garden", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min", "url": "http://www.eugenemaplegarden.com/"},
+  {"restaurant_name": "Teriyaki Boy", "meal_time": ["lunch", "dinner"], "food_category": ["asian"], "price": "min", "url": "http://www.yellowbook.com/profile/teriyaki-boy_1867280834.html"},
+  {"restaurant_name": "Barrys Espresso", "meal_time": ["breakfast", "lunch", "dessert"], "food_category": ["american"], "price": "min", "url": "http://barrysbakery.blogspot.com/"},
+  {"restaurant_name": "Yogurt Extreme", "meal_time": ["dessert"], "food_category": ["american"], "price": "min", "url": "http://www.yogurtextreme.com/"},
+  {"restaurant_name": "Milky Way", "meal_time": ["breakfast", "lunch"], "food_category": ["american", "asian"], "price": "min", "url": "https://www.facebook.com/pages/Milky-Way/100862929958710"},
+  {"restaurant_name": "Peachwave", "meal_time": ["dessert", "lunch", "dinner"], "food_category": ["american, asian"], "price": "min", "url": "http://www.peachwaveyogurt.com/locations/oregon/"}
 ];
 
 /* for loop to add all db entries */
@@ -206,32 +207,32 @@ function mongoGetRestaurant( body, callBack ){
                                             console.log("B");
                                             len = result.length;
                                             if(len === 0){
-                                              console.log("We have a problem... no matches found.");
+                                              console.log("Error.");
                                               return;
                                             }
                                             console.log("length of result is: " + JSON.stringify( len ));
                                             randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
-                                            callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
+                                            callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name, "url": result[randomNum].url});
                                             return;
                                           }
                                         });
                                       }else{
                                          randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
-                                      callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
+                                      callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name, "url": result[randomNum].url});
                                       return;
                                       }
                                     }
                                   });
                               } else {
                                 randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
-                                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
+                                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name, "url": result[randomNum].url}); 
                                 return;
                               }
                             }
                         });
                     } else { // 2 entry return
                         randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
-                        callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
+                        callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name, "url": result[randomNum].url});
                         return;
                     }
                   }
@@ -240,7 +241,7 @@ function mongoGetRestaurant( body, callBack ){
                   console.log("all entries match");
                   randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
                   console.log(randomNum);
-                  callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
+                  callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name, "url": result[randomNum].url});
                   return;
               }
             }
@@ -258,7 +259,7 @@ function mongoGetRestaurant( body, callBack ){
               len = result.length;
               console.log("length of result is: " + JSON.stringify( len ));
               randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
-              callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
+              callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name, "url": result[randomNum].url});
               return;
             }
           });  /* ELSE IF - if 1 entry was not given input */
@@ -274,7 +275,7 @@ function mongoGetRestaurant( body, callBack ){
                 console.log("C");len = result.length;
                 console.log("length of result is: " + JSON.stringify( len ));
                 randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
-                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});
+                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name, "url": result[randomNum].url});
                 return;
               }
             });  /* ELSE IF - if 1 entry was not given input */
@@ -291,7 +292,7 @@ function mongoGetRestaurant( body, callBack ){
                 len = result.length;
                 console.log("length of result is: " + JSON.stringify( len ));
                 randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
-                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
+                callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name, "url": result[randomNum].url});
                 return;
               }
             });  /* ELSE IF - if 2 entries was not given input */
@@ -308,7 +309,7 @@ function mongoGetRestaurant( body, callBack ){
                   len = result.length;
                   console.log("length of result is: " + JSON.stringify( len ));
                   randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
-                  callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
+                  callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name, "url": result[randomNum].url});         
                   return;
                 }
             }); /* ELSE IF - if 2 entries was not given input */
@@ -325,7 +326,7 @@ function mongoGetRestaurant( body, callBack ){
                     len = result.length;
                     console.log("length of result is: " + JSON.stringify( len ));
                     randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
-                    callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
+                    callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name, "url": result[randomNum].url});
                     return;
                   }
               }); /* ELSE IF - if 2 entries was not given input */
@@ -342,7 +343,7 @@ function mongoGetRestaurant( body, callBack ){
                     len = result.length;
                     console.log("length of result is: " + JSON.stringify( len ));
                     randomNum = Math.floor(Math.random() * len); // picks a random number out of restraunts listed
-                    callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name});              return;
+                    callBack({"message": "match", "restaurant_name": result[randomNum].restaurant_name, "url": result[randomNum].url});
                     return;
                   }
               });
