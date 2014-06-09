@@ -31,10 +31,15 @@ CIS 399: Final Project
     <h1>Meal Selection</h1>
 
 <div class="bottom">
-     <section id="profile">
-      <tr><td></td><td></td></tr>
-        <span class="directions">What kind of food are you looking for? </span>
-        <select id="mealtime" style="margin-left: 20px; width: 110px;">
+  <table style="margin-top: 30px; text-align:center;">
+    <tr>
+      <td style="width:400px; text-align:right;">
+         <section id="profile">
+            <span class="directions">What kind of food are you looking for? </span>
+          </section>
+      </td>
+      <td style="width:200px;">
+        <select id="mealtime" style="margin-right: 100px; width: 110px;">
           <option value="0"> ----- </option>
           <option value="breakfast">Breakfast</option>
           <option value="lunch">Lunch</option>
@@ -42,10 +47,16 @@ CIS 399: Final Project
           <option value="dessert">Dessert</option>
         </select>
         <br>
-
-     <section id="profile">
-        <span class="directions">What type of food do you want? </span>
-        <select id="food_category" style="margin-left: 88px; width: 110px;">
+      </td>
+</tr>
+<tr>
+      <td style="width:400px; text-align:right;">
+         <section id="profile">
+            <span class="directions">What type of food do you want? </span>
+          </section>
+      </td>
+      <td>
+        <select id="food_category" style="margin-right: 100px; width: 110px;">
           <option value="0"> ----- </option>
           <option value="pubfood">Pub Food</option>
           <option value="thai">Thai</option>
@@ -55,27 +66,48 @@ CIS 399: Final Project
           <option value="mexican">Mexican</option>
           <option value="mediterranean">Mediterranean</option>
         </select>
-        <br>
 
+      </td>
+</tr>
+<tr>
+      <td style="width:400px; text-align:right;">
+        <section>
         <span class="directions">What is your price range? </span>
-        <select id="price" style="margin-left: 150px; width: 110px;">
+      </section>
+      </td>
+      <td>
+        <select id="price" style="margin-right: 100px; width: 110px;">
           <option value="0"> ----- </option>
           <option value="min">$0 - $8</option>
           <option value="med">$8 - $15</option>
           <option value="max">$15 +</option>
         </select>
-        <br>
+ 
+      </td>
+</tr>
+<!-- extra space -->
+<tr><td height="40px;"> </td><td> </td>
+</tr>
 
-        <p>
+<tr>
+      <td style="text-align:center;" colspan="2">
         <button id="save">Save Food Choices</button>
-        
-        <p>
+
         <button id="recommendation">I'm Feeling Hungry!</button>
     </section>
 
+</td>
+<tr>
+  <td colspan="2">
     <section id="result">
-        <h2>Feedback: <span id="feedback"></span></h2>
+        <h2><span id="feedback"></span></h2>
     </section>
+
+</td>
+</tr>
+  </table>
+
+
 </div>
 
   </body>

@@ -20,7 +20,18 @@ body {
 	border: 5px solid white;
 }
 
+/* for index page */
 table {
+	background-color: #50C977;
+	width:100%;
+	height:100%;
+	cellpadding:0px;
+	cellspacing:0px;
+	border-collapse: collapse;
+}
+
+/* for places.html */
+table .places {
 	background-color: #50C977;
 	width:100%;
 	height:100%;
@@ -70,4 +81,5 @@ button.places {
 
 .bottom {
 	border: white solid 3px;
+	background-color: #50C977;
 }
