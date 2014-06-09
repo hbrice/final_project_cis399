@@ -32,8 +32,14 @@ app.get("/password.json", login_handlers.passwordHandler);
 console.log("server.js - app.get /username.json.");
 app.get("/username.json", login_handlers.usernameHandler);
 
+console.log("server.js - app.get /reset.json.");
+app.get("/reset.json", login_handlers.resetHandler);
+
 console.log("server.js - app.post /register.json.");
 app.post("/register.json", login_handlers.registerHandler);
+
+console.log("server.js - app.get /update.json.");
+app.post("/update.json", login_handlers.updateHandler);
 
 //routes for main app page (foods.html)
 

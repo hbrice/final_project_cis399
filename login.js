@@ -150,8 +150,6 @@ function mongoRegister( login, callBack ){
 
               var user = new User( {"name": login.name, "password": login.password, "question": 
                                     login.question, "answer": login.answer, "history": [], "compromised": [] });
-              console.log("USER'S SEC QUESTIONS: " + login.question);
-              console.log("USER's SEC ANSWER: " + login.answer);
               user.save(function (err, doc){ 
               console.log( "register result **: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));
              });
@@ -232,10 +230,71 @@ function mongoUsername(login, callBack) {
   });
 }
 
+function mongoReset(login, callBack) {
+  console.log("Entered login.js - mongoReset");
+  console.log("MONGO RESET LOGIN: " + JSON.stringify( login ));
+
+  var name = login.name;
+  console.log("NAME: " + name);
+
+  User.findOne({"name": name}, function (err, result) {
+    console.log( "mongoReset result: " + JSON.stringify( result ));
+
+    if (err !== null) {
+       console.log("ERROR: " + err);
+       callBack({"err": err});
+       return;
+    }
+    if( result ) {
+      callBack(result);
+    } 
+  });
+}
+
+function mongoUpdate(login, callBack) {
+  console.log("Entered login.js - mongoUpdate");
+  console.log("MONGO update LOGIN: " + JSON.stringify( login ));
+
+  var name = login.name;
+  var password = login.password;
+  console.log("NAME: " + name);
+  console.log("PASSWORD: " + password);
+
+
+    
+      //encrypt password
+
+      //generate a salt
+      bcrypt.genSalt(10, function(err, salt){
+        if (err) {
+          callBack({"err": err});
+          return;
+        }
+        else {
+          //hash password with salt
+          bcrypt.hash(login.password, salt, null, function(err, hash) {
+            if (err) {
+              callBack({"err": err});
+              return;
+            } 
+            login.password = hash;
+            
+            User.findOneAndUpdate({"name": name}, {"password": login.password}, {"new": true, "upsert": true}, function (err, result) {
+              console.log( "mongoUpdate result: " + JSON.stringify( result ));
+            });
+          });
+        }
+      });
+   
+  
+}
+
 module.exports = {
   "handleRegistration": mongoRegister,
   "handleLogin": mongoLogin,
   "checkExistence": mongoCheckExistence,
   "handlePassword": mongoPassword,
-  "handleUsername": mongoUsername
+  "handleUsername": mongoUsername,
+  "handleReset": mongoReset,
+  "handleUpdate": mongoUpdate
 };

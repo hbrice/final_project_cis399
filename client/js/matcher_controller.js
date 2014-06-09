@@ -2,6 +2,7 @@
 * Holly Brice & Heidi Niu
 * CIS 399: Final Project
 */
+
 console.log("matcher_controller - top of file");
 
 /* handles Login with exsisting user result */
@@ -26,14 +27,14 @@ function handleRegisterResult(resp_body) {
 function handlePasswordResult(resp_body) { 
     console.log("Entered handlePasswordResult.");
     console.log("resp_body: " + JSON.stringify (resp_body));
-    $("#feedback").text( "IN HANDLE PASSWORD RESULT " + JSON.stringify( resp_body) )
+    $("#feedback").text (JSON.stringify( resp_body) )
     sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
     if( resp_body.url ) window.location = resp_body.url;
 }; 
 
 function handleUsernameResult(resp_body) {
-     console.log("RIGHT BEFORE  FIRST QUESTION LINE");
-     console.log("resp_body: " + JSON.stringify (resp_body));
+    console.log("resp_body: " + JSON.stringify (resp_body));
+    $("#feedback").text (JSON.stringify( resp_body) )
     if (resp_body.question === "Q1") {
       $("#security_question").text( "What is the last name of your third grade teacher?" );
     }
@@ -43,7 +44,58 @@ function handleUsernameResult(resp_body) {
     else { //Q3
       $("#security_question").text( "What is your mom's middle name?" );
     }
-}
+};
+
+function handleResetResult(resp_body) {
+    console.log("Entered handleResetResult");
+    $("#feedback").text (JSON.stringify( resp_body));
+    
+    console.log("DO STUFF");
+
+    var answer = $("#security_answer").val();
+    if (resp_body.answer === answer) {
+      console.log("ANSWERS MATCH");
+
+      var new_password = $("#new_pass").val();
+      console.log("NEW PASSWORD: " + new_password);
+      resp_body.password = new_password; //reset password, is it saved in db? encrypted?
+      //$("#feedback").text ("Password successfully changed!");
+      $("#feedback").text (JSON.stringify( resp_body));
+
+      //encrypt password
+
+      //save user fields
+      var name = resp_body.name;
+      var password = resp_body.password;
+      var question = resp_body.question;
+      //already have answer
+      var id = resp_body.id;
+      var compromised = resp_body.compromised;
+      var history = resp_body.history;
+
+      $.post("update.json",
+               {"name": name, "password": password,
+               "question": question, "answer": answer,
+               "id": id, "compromised": compromised,
+               "history": history },
+               handleUpdateResult);
+
+    }
+    else {
+      console.log("answers do not match");
+      $("#feedback").text ("The answer you entered is incorrect.");
+    }
+};
+
+function handleUpdateResult(resp_body) {
+
+    console.log("Entered handleUpdateResult" + JSON.stringify( resp_body ) );
+    var the_body = resp_body;
+  
+    $("#feedback").text("Password has been saved.");
+    
+};
+
 
 /* handles Retrieve Recommendation */
 function handleRetrieveResult(resp_body) {
@@ -162,8 +214,14 @@ var index_main = function (){
      $.get("username.json",
           {"name": $("#username").val()},
           handleUsernameResult);
-    //$("#feedback").empty();
+  }); 
 
+   $("button#resetButton").on("click", function( event ){ //on password.html
+    console.log("reset button clicked.");
+
+     $.get("reset.json",
+          {"name": $("#username").val(), "answer": $("#answer").val(), "password": $("#new_pass").val()},
+          handleResetResult);
   }); 
 
 } //end of main

@@ -60,26 +60,41 @@ function passwordHandler(req, res) {
   });
 }
 
-function usernameHandler(req, res) {
+function usernameHandler(req, res) { //for username submit on password.html
   console.log("Entered login_routes.js - usernameHandler");
   var the_body = req.query;
   console.log("username the_body: " + JSON.stringify(the_body));
   login.handleUsername(the_body, function(janswer){
     console.log("username handler result: " + JSON.stringify(janswer));
-    //f (janswer.question !== true) {
-      res.json(janswer);
-    //}
-    //else {
-      //res.cookie("name", the_body.name, cookie_options);
-      //res.json({"url": "./password.html", "name": the_body.name});
-    //}
+    res.json(janswer);
   });
 }
 
+function resetHandler(req, res) { //for answer and new password on password.html
+  console.log("Entered login_routes.js - resetHandler");
+  var the_body = req.query;
+  console.log("reset the_body " + JSON.stringify(the_body));
+  login.handleReset(the_body, function(janswer) {
+    console.log("reset handler result: " + JSON.stringify(janswer));
+    res.json(janswer);
+  })
+}
+
+function updateHandler(req, res){ //for updating user with new password
+  console.log("Entered login_routes.js - updateHandler");
+  var the_body = req.body;
+  login.handleUpdate( the_body , function ( janswer ){
+    console.log( "update result: " + JSON.stringify( janswer));
+    res.cookie("name", the_body.name, cookie_options);
+    res.json(janswer);
+  });
+}
 
 module.exports = {
   "loginHandler": loginHandler,
   "registerHandler": registerHandler,
   "passwordHandler": passwordHandler,
-  "usernameHandler": usernameHandler
+  "usernameHandler": usernameHandler,
+  "resetHandler": resetHandler,
+  "updateHandler": updateHandler
 };
