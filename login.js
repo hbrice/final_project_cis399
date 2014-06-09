@@ -53,24 +53,6 @@ var UserSchema = mongoose.Schema({
 var User = mongoose.model("User", UserSchema);
 console.log("login.js - user created.");
 
-//need something in db for it to be defined
-/* User login info */
-// var query = {"name": "holly", "password": "cow", "history": ["holly"], "compromised": ["holly"]};  //add for testing
-// User.findOneAndUpdate( query, {}, {upsert: true}, function(err, doc){
-//     console.log( "test err: " + err);
-//     console.log( "test doc: " + doc);
-// });
-
-//this tests out the "unique" key on user - should give error message second time run"
-// var user1 = new User( {"name": "simon", "password": "a", "history": [], "compromised": []} );
-// user1.save( function(err, doc ){
-//       if (err) {
-//         console.log("save error: " + JSON.stringify( err ));
-//       } else {
-//         console.log("doc saved: " + JSON.stringify( doc ));
-//       }
-//     });
-
 //gives you messages on various db events
 db.once('open', function () {
   console.log( "moongoose login open!")});
@@ -92,7 +74,6 @@ function mongoCheckExistence( login, callBack ){
     console.log("PASS: " + pass);
     User.findOne({"name": name}, function (err, result) {
         console.log( "existence result: " + JSON.stringify( result ));
-        //find out why andy is returning null
 
         if (err !== null) {
            console.log("ERROR: " + err);
