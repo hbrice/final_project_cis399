@@ -100,6 +100,7 @@ function mongoCheckExistence( login, callBack ){
 * provides callBack with arg: {"saved": bool} or {err: error} */
 function mongoRegister( login, callBack ){
   console.log("Entered login.js - mongoRegister");
+  if ((login.name !==null) && (login.password !== null) && (login.question !== null) && (login.answer !== null)) {
   mongoCheckExistence( login, function( result ){
     if( result.err ){
          callBack({"err": result.err});  //just pass it back to callee
@@ -139,7 +140,9 @@ function mongoRegister( login, callBack ){
           }
         });
     }
+  
  });
+  } //close if statement
 }
 
 /* expects login to be of form {name: String, password: String}
@@ -157,38 +160,7 @@ function mongoLogin( login, callBack ){
 function mongoPassword(login, callBack) {
   console.log("Entered login.js - mongoPassword");
 
-  var name = login.name;
-  console.log("NAME: " + name);
-
-  User.findOne({"name": name}, function (err, result) {
-    console.log( "mongoPassword result: " + JSON.stringify( result ));
-
-    if (err !== null) {
-       console.log("ERROR: " + err);
-       callBack({"err": err});
-       return;
-    }
-    if( result ){
-      console.log("RESULT.QUESTION: " + result.question);
-      console.log("RESULT.ANSWER: " + result.answer);
- 
-      if (result.question === "Q1") {
-        console.log("ASK 1st Q");
-        //$("#question").text( "ASK FIRST QUESTION" );
-      }
-      else if (result.question === "Q2") {
-        //$("#question").text( "ASK SECOND QUESTION" );
-      }
-      else { //Q3
-        //$("#question").text( "ASK 3rd QUESTION" );
-      } 
-      callBack(result);
-
-    } //else {
-      //could optionally check for password match here - useful info?
-      //callBack({"name": false, "password": null});     //name did not match
-    //} 
-  });
+  callBack(login);
 }
 
 function mongoUsername(login, callBack) {
@@ -196,19 +168,20 @@ function mongoUsername(login, callBack) {
 
   var name = login.name;
   console.log("NAME: " + name);
+  if (name !== null) {
+    User.findOne({"name": name}, function (err, result) {
+      console.log( "mongoUsername result: " + JSON.stringify( result ));
 
-  User.findOne({"name": name}, function (err, result) {
-    console.log( "mongoUsername result: " + JSON.stringify( result ));
-
-    if (err !== null) {
-       console.log("ERROR: " + err);
-       callBack({"err": err});
-       return;
-    }
-    if( result ) {
-      callBack(result);
-    } 
-  });
+      if (err !== null) {
+         console.log("ERROR: " + err);
+         callBack({"err": err});
+         return;
+      }
+      if( result ) {
+        callBack(result);
+      } 
+    });
+  }
 }
 
 function mongoReset(login, callBack) {
@@ -217,19 +190,20 @@ function mongoReset(login, callBack) {
 
   var name = login.name;
   console.log("NAME: " + name);
+  if (name !== null) {
+    User.findOne({"name": name}, function (err, result) {
+      console.log( "mongoReset result: " + JSON.stringify( result ));
 
-  User.findOne({"name": name}, function (err, result) {
-    console.log( "mongoReset result: " + JSON.stringify( result ));
-
-    if (err !== null) {
-       console.log("ERROR: " + err);
-       callBack({"err": err});
-       return;
-    }
-    if( result ) {
-      callBack(result);
-    } 
-  });
+      if (err !== null) {
+         console.log("ERROR: " + err);
+         callBack({"err": err});
+         return;
+      }
+      if( result ) {
+        callBack(result);
+      } 
+    });
+  }
 }
 
 function mongoUpdate(login, callBack) {
@@ -241,8 +215,6 @@ function mongoUpdate(login, callBack) {
   console.log("NAME: " + name);
   console.log("PASSWORD: " + password);
 
-
-    
       //encrypt password
 
       //generate a salt
@@ -266,8 +238,6 @@ function mongoUpdate(login, callBack) {
           });
         }
       });
-   
-  
 }
 
 module.exports = {

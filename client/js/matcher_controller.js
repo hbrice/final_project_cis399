@@ -53,6 +53,8 @@ function handleResetResult(resp_body) {
     console.log("DO STUFF");
 
     var answer = $("#security_answer").val();
+    console.log("answer: " + answer);
+    console.log("resp body answer: "+ resp_body.answer);
     if (resp_body.answer === answer) {
       console.log("ANSWERS MATCH");
 
@@ -80,6 +82,7 @@ function handleResetResult(resp_body) {
                "history": history },
                handleUpdateResult);
 
+      window.location = "./index.html";
     }
     else {
       console.log("answers do not match");
@@ -93,7 +96,8 @@ function handleUpdateResult(resp_body) {
     var the_body = resp_body;
   
     $("#feedback").text("Password has been saved.");
-    
+    console.log("RESP BODY URL: " + resp_body.url);
+    if( resp_body.url ) window.location = resp_body.url;
 };
 
 

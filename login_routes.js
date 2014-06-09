@@ -3,9 +3,6 @@
 * CIS 399: Final Project
 */
 var login = require("./login.js");
-// var mongoose = require("mongoose"),
-//   mongoUrl;
-
 var cookie_options = {};
 
 /** HANDLERS FOR LOGIN PAGE */
@@ -50,13 +47,9 @@ function passwordHandler(req, res) {
   console.log("forgot password request: " + JSON.stringify(the_body));
   login.handlePassword(the_body, function(janswer){
     console.log("forgot password result: " + JSON.stringify(janswer));
-    //if (janswer.question !== true) {
-      //res.json(janswer);
-    //}
-    //else {
-      res.cookie("name", the_body.name, cookie_options);
-      res.json({"url": "./password.html", "name": the_body.name});
-    //}
+
+    res.cookie("name", the_body.name, cookie_options);
+    res.json({"url": "./password.html", "name": the_body.name});
   });
 }
 
@@ -85,8 +78,6 @@ function updateHandler(req, res){ //for updating user with new password
   var the_body = req.body;
   login.handleUpdate( the_body , function ( janswer ){
     console.log( "update result: " + JSON.stringify( janswer));
-    res.cookie("name", the_body.name, cookie_options);
-    res.json(janswer);
   });
 }
 
