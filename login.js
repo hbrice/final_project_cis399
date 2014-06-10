@@ -100,48 +100,48 @@ function mongoCheckExistence( login, callBack ){
 * provides callBack with arg: {"saved": bool} or {err: error} */
 function mongoRegister( login, callBack ){
   console.log("Entered login.js - mongoRegister");
-  if ((login.name !==null) && (login.password !== null) && (login.question !== null) && (login.answer !== null)) {
-  mongoCheckExistence( login, function( result ){
-    if( result.err ){
-         callBack({"err": result.err});  //just pass it back to callee
-         return;
-    }
-    if( result.name ){
-        callBack({"saved": false});  //exists so was not saved
-    } 
-    else {
-        console.log("making new user. name: "+ JSON.stringify( login ));
-        //Big thing to note - we are not waiting for save result before calling back to client
+  if ((login.name.length !== 0) && (login.password.length !== 0) && (login.question.length !== 0) && (login.answer.length !== 0)) {
+    mongoCheckExistence( login, function( result ){
+      if( result.err ){
+           callBack({"err": result.err});  //just pass it back to callee
+           return;
+      }
+      if( result.name ){
+          callBack({"saved": false});  //exists so was not saved
+      } 
+      else {
+          console.log("making new user. name: "+ JSON.stringify( login ));
+          //Big thing to note - we are not waiting for save result before calling back to client
 
-        //encrypt password
+          //encrypt password
 
-        //generate a salt
-        bcrypt.genSalt(10, function(err, salt){
-          if (err) {
-            callBack({"err": err});
-            return;
-          }
-          else {
-            //hash password with salt
-            bcrypt.hash(login.password, salt, null, function(err, hash) {
-                if (err) {
-                callBack({"err": err});
-                return;
-              } 
-              login.password = hash;
+          //generate a salt
+          bcrypt.genSalt(10, function(err, salt){
+            if (err) {
+              callBack({"err": err});
+              return;
+            }
+            else {
+              //hash password with salt
+              bcrypt.hash(login.password, salt, null, function(err, hash) {
+                  if (err) {
+                  callBack({"err": err});
+                  return;
+                } 
+                login.password = hash;
 
-              var user = new User( {"name": login.name, "password": login.password, "question": 
-                                    login.question, "answer": login.answer, "history": [], "compromised": [] });
-              user.save(function (err, doc){ 
-              console.log( "register result **: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));
-             });
-             callBack({"saved": true});
-            });
-          }
-        });
-    }
+                var user = new User( {"name": login.name, "password": login.password, "question": 
+                                      login.question, "answer": login.answer, "history": [], "compromised": [] });
+                user.save(function (err, doc){ 
+                console.log( "register result **: " + JSON.stringify( err ) + " & " + JSON.stringify( doc));
+               });
+               callBack({"saved": true});
+              });
+            }
+          });
+      }
   
- });
+   });
   } //close if statement
 }
 
