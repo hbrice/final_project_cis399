@@ -181,7 +181,7 @@ var index_main = function (){
           console.log("result: " + result);
     //      result.json( result ); //send the result
         }
-        $("#feedback").text("This data was saved");
+        $("#feedback").text("Now Click 'I'm feeling hungry' button!");
       }); 
 
       //update model
