@@ -34,7 +34,7 @@ function handlePasswordResult(resp_body) {
 
 function handleUsernameResult(resp_body) {
     console.log("resp_body: " + JSON.stringify (resp_body));
-    $("#feedback").text (JSON.stringify( resp_body) )
+
     if (resp_body.question === "Q1") {
       $("#security_question").text( "What is the last name of your third grade teacher?" );
     }
@@ -48,7 +48,7 @@ function handleUsernameResult(resp_body) {
 
 function handleResetResult(resp_body) {
     console.log("Entered handleResetResult");
-    $("#feedback").text (JSON.stringify( resp_body));
+    //$("#feedback").text (JSON.stringify( resp_body));
     
     console.log("DO STUFF");
 
@@ -62,8 +62,8 @@ function handleResetResult(resp_body) {
       console.log("NEW PASSWORD: " + new_password);
       resp_body.password = new_password; //reset password, is it saved in db? encrypted?
       //$("#feedback").text ("Password successfully changed!");
-      $("#feedback").text (JSON.stringify( resp_body));
-
+  //    $("#feedback").text (JSON.stringify( resp_body));
+      $("#feedback").text ("That is correct.");
       //encrypt password
 
       //save user fields
