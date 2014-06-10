@@ -165,7 +165,6 @@ function mongoLogin( login, callBack ){
 
 function mongoPassword(login, callBack) {
   console.log("Entered login.js - mongoPassword");
-
   callBack(login);
 }
 
@@ -174,7 +173,10 @@ function mongoUsername(login, callBack) {
 
   var name = login.name;
   console.log("NAME: " + name);
-  if (name !== null) {
+  if (name.length === 0) {
+    callBack("Alert");
+  }
+  else {
     User.findOne({"name": name}, function (err, result) {
       console.log( "mongoUsername result: " + JSON.stringify( result ));
 
@@ -183,7 +185,10 @@ function mongoUsername(login, callBack) {
          callBack({"err": err});
          return;
       }
-      if( result ) {
+      else if (result === null) {
+        callBack("Alert");
+      }
+      else if( result ) {
         callBack(result);
       } 
     });

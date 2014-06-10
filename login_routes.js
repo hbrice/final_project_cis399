@@ -38,7 +38,8 @@ function registerHandler(req, res){
   login.handleRegistration( the_body , function ( janswer ){
     console.log( "registration result: " + JSON.stringify( janswer));
     if( janswer.saved === false )
-        res.json( janswer );
+        //res.json( janswer );
+        res.json("Alert2");
     else {
       if (janswer === "Alert") {
         console.log("In Alert registerHandler");
@@ -69,6 +70,7 @@ function usernameHandler(req, res) { //for username submit on password.html
   console.log("username the_body: " + JSON.stringify(the_body));
   login.handleUsername(the_body, function(janswer){
     console.log("username handler result: " + JSON.stringify(janswer));
+    
     res.json(janswer);
   });
 }

@@ -9,13 +9,21 @@ console.log("matcher_controller - top of file");
 function handleLoginResult(resp_body) {
     console.log("Entered handleLoginResult.");
     console.log("resp_body " + JSON.stringify (resp_body ) );
+    console.log("resp_body.password: " + resp_body.password);
     if (resp_body === "Alert") {
       console.log("In Alert");
       alert("Please enter your username and password.");
     }
-    $("#feedback").text( JSON.stringify( resp_body) );
-    sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
-    if( resp_body.url ) window.location = resp_body.url; //load main app page
+    else if ((resp_body.password == false) || (resp_body.name == false)) {
+      console.log("something is false");
+      alert("Invalid username and password combination.");
+    }
+    else {
+      console.log("in else");
+      $("#feedback").text( JSON.stringify( resp_body) );
+      sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
+      if( resp_body.url ) window.location = resp_body.url; //load main app page
+    }
 };
 
 /* handles Register new user result */
@@ -25,6 +33,9 @@ function handleRegisterResult(resp_body) {
     if (resp_body === "Alert") {
       console.log("In Alert");
       alert("Please fill out the entire registration form.");
+    }
+    if (resp_body === "Alert2") {
+      alert("Username is taken.");
     }
     $("#feedback").text( JSON.stringify( resp_body) )
     sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
@@ -42,15 +53,19 @@ function handlePasswordResult(resp_body) {
 
 function handleUsernameResult(resp_body) {
     console.log("resp_body: " + JSON.stringify (resp_body));
-
-    if (resp_body.question === "Q1") {
-      $("#security_question").text( "What is the last name of your third grade teacher?" );
+    if (resp_body === "Alert") {
+      alert("Please submit a valid username.");
     }
-    else if (resp_body.question === "Q2") {
-      $("#security_question").text( "What was the make and model of your first car?" );
-    }
-    else { //Q3
-      $("#security_question").text( "What is your mom's middle name?" );
+      else {
+      if (resp_body.question === "Q1") {
+        $("#security_question").text( "What is the last name of your third grade teacher?" );
+      }
+      else if (resp_body.question === "Q2") {
+        $("#security_question").text( "What was the make and model of your first car?" );
+      }
+      else { //Q3
+        $("#security_question").text( "What is your mom's middle name?" );
+      }
     }
 };
 
@@ -63,15 +78,26 @@ function handleResetResult(resp_body) {
     var answer = $("#security_answer").val();
     console.log("answer: " + answer);
     console.log("resp body answer: "+ resp_body.answer);
-    if (resp_body.answer === answer) {
+    var new_password = $("#new_pass").val();
+    console.log("NEW PASSWORD: " + new_password);
+
+    if (answer.length === 0 ) {
+      alert("Please input an answer.");
+    }
+    else if (new_password.length === 0 ) {
+      alert("Please input a new password.");
+    }
+  
+
+    else if (resp_body.answer === answer) {
       console.log("ANSWERS MATCH");
 
-      var new_password = $("#new_pass").val();
-      console.log("NEW PASSWORD: " + new_password);
+     
       resp_body.password = new_password; //reset password, is it saved in db? encrypted?
       //$("#feedback").text ("Password successfully changed!");
   //    $("#feedback").text (JSON.stringify( resp_body));
-      $("#feedback").text ("That is correct.");
+      $("#feedback").text ("Password successfully changed.");
+
       //encrypt password
 
       //save user fields
@@ -201,10 +227,17 @@ var index_main = function (){
   $("button#recommendation").on("click", function( event ){
       //get all data together
       console.log("matcher_controller - Recommendation - button clicked.");
+
       $("#feedback").empty();
       var data = UserModel.getAll();
       //console.log("Usermodel.getAll(): " + JSON.stringify( UserModel.getAll() ));
-      console.log("data: "+ JSON.stringify( data) );
+      console.log("&&& data: "+ JSON.stringify( data) );
+
+      if ((data.name === null) && (data.meal_time === null) && (data.food_category === null) && (data.price === null) ){
+        console.log("ITS EMPTY");
+        alert("Save your food choices before getting a recommendation!")
+      }
+
       var meal_time = data.meal_time;
       console.log("$$$$$$meal_time: " + meal_time);
       var food_category = data.food_category;

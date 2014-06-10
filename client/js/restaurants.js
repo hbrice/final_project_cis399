@@ -138,7 +138,7 @@ function mongoGet( name, callBack ){
 function mongoGetRestaurant( body, callBack ){ 
     console.log( "mongoGetRestaurant, body: " + JSON.stringify( body ));
 
-    else if( body !== undefined){
+    if( body !== undefined){
         var food_category = body.food_category;
         var price = body.price;
         var meal_time = body.meal_time;
