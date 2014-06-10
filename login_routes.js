@@ -18,8 +18,13 @@ function loginHandler(req, res){
         if( janswer.name !== true || janswer.password !== true )
             res.json( janswer );
         else {
+          if (janswer === "Alert") {
+            console.log("In Alert loginHandler");
+            res.json("Alert");
+          } else {
             res.cookie('name', the_body.name, cookie_options);
             res.json({"url": "./places.html", "name": the_body.name});
+          }
         };
     });
 }
@@ -35,8 +40,13 @@ function registerHandler(req, res){
     if( janswer.saved === false )
         res.json( janswer );
     else {
+      if (janswer === "Alert") {
+        console.log("In Alert registerHandler");
+        res.json("Alert");
+      } else {
         res.cookie('name', the_body.name, cookie_options);
         res.json({"url": "./places.html", "name": the_body.name});
+      }
     };
   });
 }

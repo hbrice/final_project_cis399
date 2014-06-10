@@ -137,7 +137,8 @@ function mongoGet( name, callBack ){
 /* This goes back to retrieveRestaurantHandler in restaurant_routes.js - it will return a restaurant name */
 function mongoGetRestaurant( body, callBack ){ 
     console.log( "mongoGetRestaurant, body: " + JSON.stringify( body ));
-    if( body !== undefined){
+
+    else if( body !== undefined){
         var food_category = body.food_category;
         var price = body.price;
         var meal_time = body.meal_time;

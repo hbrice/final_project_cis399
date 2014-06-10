@@ -9,6 +9,10 @@ console.log("matcher_controller - top of file");
 function handleLoginResult(resp_body) {
     console.log("Entered handleLoginResult.");
     console.log("resp_body " + JSON.stringify (resp_body ) );
+    if (resp_body === "Alert") {
+      console.log("In Alert");
+      alert("Please enter your username and password.");
+    }
     $("#feedback").text( JSON.stringify( resp_body) );
     sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
     if( resp_body.url ) window.location = resp_body.url; //load main app page
@@ -18,6 +22,10 @@ function handleLoginResult(resp_body) {
 function handleRegisterResult(resp_body) {
     console.log("Entered handleRegisterResult.");
     console.log("respt_body: " + JSON.stringify( resp_body ) );
+    if (resp_body === "Alert") {
+      console.log("In Alert");
+      alert("Please fill out the entire registration form.");
+    }
     $("#feedback").text( JSON.stringify( resp_body) )
     sessionStorage.setItem( 'name', resp_body.name ); //setting global variable with name of user
     if( resp_body.url ) window.location = resp_body.url;

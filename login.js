@@ -100,6 +100,9 @@ function mongoCheckExistence( login, callBack ){
 * provides callBack with arg: {"saved": bool} or {err: error} */
 function mongoRegister( login, callBack ){
   console.log("Entered login.js - mongoRegister");
+  if ((login.name.length === 0) || (login.password.length ===0) || (login.question.length === 0) || (login.answer.length === 0)) {
+    callBack("Alert");
+  }
   if ((login.name.length !== 0) && (login.password.length !== 0) && (login.question.length !== 0) && (login.answer.length !== 0)) {
     mongoCheckExistence( login, function( result ){
       if( result.err ){
@@ -149,6 +152,9 @@ function mongoRegister( login, callBack ){
 * provides callBack with arg: {"name": bool, "password": bool} or {err: error} */
 function mongoLogin( login, callBack ){
   console.log("Entered login.js - mongoLogin");
+  if ((login.name.length === 0) || (login.password.length ===0)) {
+    callBack("Alert");
+  }
   mongoCheckExistence( login, function( result ){
     if( result.err )
          callBack({"err": result.err});  //just pass it back to callee
